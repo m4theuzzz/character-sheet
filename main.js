@@ -4,7 +4,7 @@ const express = require('express');
 
 const db = new Database('db');
 
-const PORT = 3001;
+const PORT = 37456;
 
 const createWindow = () => {
     const win = new BrowserWindow({

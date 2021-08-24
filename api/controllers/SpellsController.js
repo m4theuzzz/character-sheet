@@ -34,24 +34,26 @@ exports.createNewSpell = (req, res) => {
     return res.status(200).send({ "response": "Magia criada com sucesso." });
 };
 
-exports.getCastingTypes = (req, res) => {
-    return res.status(200).send({ "castingTypes": CASTING_TYPES });
-};
-
-exports.getDurationTypes = (req, res) => {
-    return res.status(200).send({ "durationTypes": DURATION_TYPES });
-};
-
-exports.getDurationTimeCount = (req, res) => {
-    return res.status(200).send({ "durationTimeCount": DURATION_TIME_COUNT });
-};
-
-exports.getRangeTypes = (req, res) => {
-    return res.status(200).send({ "rangeTypes": RANGE_TYPES });
+exports.getConstants = (req, res) => {
+    const constants = {
+        "castingTypes": CASTING_TYPES,
+        "durationTypes": DURATION_TYPES,
+        "durationTimeCount": DURATION_TIME_COUNT,
+        "rangeTypes": RANGE_TYPES
+    };
+    return res.status(200).send(constants);
 };
 
 exports.getSpellById = (req, res) => {
-    let spellId = parseInt(req.params.id);
+    let spell;
+    const spellId = parseInt(req.params.id);
+    const filter = { "spellId": spellId };
+
+    db.fetchRowsWithFilter(TABLE_NAME, filter, spells => {
+        spell = spells[0];
+    });
+
+    return res.status(200).send({ "spell": spell });
 };
 
 exports.updateSpell = (req, res) => {

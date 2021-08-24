@@ -1,111 +1,40 @@
-# API
+# Application Description
 
-Rotas suportadas pela API:
+The Character Sheet is a application made for d20 system, based on D&D character sheet.
 
-* GET /characters -> Busca todos os personagens, retornando somente o ID de personagem e o Nome
+The simulated database works by writing and reading JSON files it creates on your computer, the folder name is 'db'.
 
-* POST /characters -> Cria um novo personagem
-corpo (type: JSON):
-{
-    "name": {{characterName}}
-}
+Once a character is created it's indexed by Id and every change on it sheet is real-time saved.
 
-* DELETE /characters/:id -> Apaga um personagem
+Items and Spells will work just the same, when adding items to your character, a list will appear with every item/spell ever inserted by any characters. In the same page, there will be a option to create a new item/spell, once fully added, there will be a option to edit or delete it on the adding list.
 
-* GET /characterSheet/:id -> busca todos os dados necessários para a construção da ficha do personagem
+The application is made with `Node.js`, being deployable thanks to `Electron`, the front-end comunicate with back-end through a restAPI and the fron-end is build in pre-compilated `Vue.js`, with style based on `Bootstrap`.
 
-* PUT /characterSheet/:id -> atualiza o banco de dados do personagem com as informações do objeto
-corpo (type: JSON): //somente o campo `characterId` obrigatório
-{
-    "character": {
-        "characterId": 1,
-        "name": "",
-        "classes": [],
-        "levels": [],
-        "race": "",
-        "background": "",
-        "alignment": "",
-        "playerName": "",
-        "experiencePoints": "0",
-        "inspirationPoints": "",
-        "strength": "14",
-        "dexterity": "13",
-        "constitution": "15",
-        "inteligence": "12",
-        "wisdom": "10",
-        "charisma": "8",
-        "halfProficienciesArray": [
-            "athletics",
-            "deception"
-        ],
-        "proficienciesArray": [
-            "insight",
-            "intimidation"
-        ],
-        "doubleProficienciesArray": [
-            "acrobatics",
-            "performance"
-        ],
-        "armorClass": "",
-        "initiative": "",
-        "speedArray": [],
-        "maximumHitPoints": "",
-        "currentHitPoints": "",
-        "temporaryHitPoints": "",
-        "maximumHitDices": "",
-        "currentHitDices": "",
-        "deathSaves": {
-            "successes": 0,
-            "failures": 0
-        },
-        "actionsArray": [],
-        "bonusActionsArray": [],
-        "reactionsArray": [],
-        "personalityTraitsArray": [],
-        "idealsArray": [],
-        "bondsArray": [],
-        "flawsArray": [],
-        "otherProficienciesArray": [],
-        "equipmentArray": [],
-        "featuresArray": [],
-        "baseModifiers": {
-            "strength": "+2",
-            "dexterity": "+1",
-            "constitution": "+2",
-            "inteligence": "+1",
-            "wisdom": "+0",
-            "charisma": "-1"
-        },
-        "skillScores": {
-            "strength": {
-                "athletics": "+3"
-            },
-            "dexterity": {
-                "acrobatics": "+5",
-                "sleightOfHands": "+1",
-                "stealth": "+1"
-            },
-            "inteligence": {
-                "arcana": "+1",
-                "history": "+1",
-                "investigation": "+1",
-                "nature": "+1",
-                "religion": "+1"
-            },
-            "wisdom": {
-                "animalHandling": "+0",
-                "insight": "+2",
-                "medicine": "+0",
-                "perception": "+0",
-                "survival": "+0"
-            },
-            "charisma": {
-                "deception": "+0",
-                "intimidation": "+1",
-                "performance": "+3",
-                "persuasion": "-1"
-            }
-        },
-        "proficiencyBonus": "+2"
-    }
-}
+# API Routing
+
+HOST: https://127.0.0.1:37456
+
+> GET: `/characters` => get all characters list, returnning only name and characterId
+> POST: `/characters` => create a new character with the name passed in body
+> DELETE: `/characters/:id` => delete the character with that characterId
+
+> GET: `/characterSheet/:id` => get the Sheet of the character with that characterId
+> PUT: `/characterSheet/:id` => update the simulated database with the character object passed in body
+
+> GET: `/items` => get all items list, returning only name and itemId
+> PUT: `/items` => update the item filtered by the property itemId inside the item object passed on the body
+> POST: `/items` => create a new item with the properties passed on the body
+
+> GET: `/items/:id` => get the item with all it's properties
+> DELETE: `/items/:id` => delete the item with that itemId
+
+> GET: `/items/constants` => get items constants to creation of items
+
+> GET: `/spells` => get all spells list, returning only name and spellId
+> PUT: `/spells` => update the spell filtered by the property spellId inside the spell object passed on the body
+> POST: `/spells` => create a new spell with the properties passed on the body
+
+> GET: `/spells/:id` => get the spell with all it's properties
+> DELETE: `/spells/:id` => delete the spell with that spellId
+
+> GET: `/spells/constants` => get spells constants to creation of spells

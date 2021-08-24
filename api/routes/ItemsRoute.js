@@ -8,11 +8,8 @@ module.exports = function (app) {
         .put(itemsController.updateItem)
         .post(itemsController.createNewItem);
 
-    app.route('/items/itemTypes')
-        .get(itemsController.getItemTypes);
-
-    app.route('/items/rarities')
-        .get(itemsController.getRarities);
+    app.route('/items/constants')
+        .get(itemsController.getItemsConstants);
 
     app.route('/items/:id')
         .get(itemsController.getItemById)

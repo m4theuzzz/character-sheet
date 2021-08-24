@@ -28,23 +28,23 @@ exports.getAllItemsList = (req, res) => {
 };
 
 exports.createNewItem = (req, res) => {
-    let newItem = req.body.itemInfo;
+    const newItem = req.body.itemInfo;
     const item = new Item(0, newItem);
     return res.status(200).send({ "response": "Item criado com sucesso." });
 };
 
-exports.getItemTypes = (req, res) => {
-    res.status(200).send({ "itemTypes": ITEM_TYPES });
-};
-
-exports.getRarities = (req, res) => {
-    res.status(200).send({ "rarities": RARITIES });
-};
+exports.getItemsConstants = (req, res) => {
+    const constants = {
+        "rarities": RARITIES,
+        "itemTypes": ITEM_TYPES
+    };
+    res.status(200).send(constants);
+}
 
 exports.getItemById = (req, res) => {
     let item;
-    let itemId = parseInt(req.params.id);
-    let filter = { "itemId": itemId };
+    const itemId = parseInt(req.params.id);
+    const filter = { "itemId": itemId };
 
     db.fetchRowsWithFilter(TABLE_NAME, filter, items => {
         item = items[0]

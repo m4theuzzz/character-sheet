@@ -3,24 +3,15 @@
 module.exports = function (app) {
     var spellController = require('../controllers/SpellsController');
 
-    app.route('/spell')
+    app.route('/spells')
         .get(spellController.getAllSpellList)
         .put(spellController.updateSpell)
         .post(spellController.createNewSpell);
 
-    app.route('/spell/castingTypes')
-        .get(spellController.getCastingTypes);
+    app.route('/spells/constants')
+        .get(spellController.getConstants);
 
-    app.route('/spell/durationTypes')
-        .get(spellController.getDurationTypes);
-
-    app.route('/spell/durationTimeCount')
-        .get(spellController.getDurationTimeCount);
-
-    app.route('/spell/rangeTypes')
-        .get(spellController.getRangeTypes);
-
-    app.route('/spell/:id')
+    app.route('/spells/:id')
         .get(spellController.getSpellById)
         .delete(spellController.deleteSpell);
 };
