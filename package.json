@@ -1,0 +1,37 @@
+{
+  "name": "character-sheet",
+  "version": "1.0.0",
+  "description": "Auxiliar de ficha",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest",
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "D&D",
+    "Character",
+    "Sheet"
+  ],
+  "author": "Matheus Santos",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "electron-db": "^0.15.7",
+    "express": "^4.17.1",
+    "npm": "^7.20.6",
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "electron": "^13.1.9",
+    "electron-builder": "^22.11.7",
+    "jest": "^27.0.6"
+  },
+  "build": {
+    "appId": "character.sheet",
+    "mac": {
+      "category": "application"
+    }
+  }
+}

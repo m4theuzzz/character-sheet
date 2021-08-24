@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../fonts/Poppins.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/homeScreen.css">
+    <link rel="stylesheet" href="../css/characterSheet.css">
+    <title>Character Sheet</title>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <transition-group :duration="300" name="page" mode="out-in" appear>
+            <div id="homePage" v-if="showHomePage" :key="0" class="appPage">
+                <h1>Character Sheet</h1>
+                <div class="block addNewCharacterHolder" class="input-group">
+                    <input type="text" placeholder="Novo Personagem" id="newCharacterName"
+                        aria-describedby="addCharacter">
+                    <button id="addCharacter" class="addCharacter input-group-text" onclick="addNewCharacter()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                            <path fill-rule="evenodd"
+                                d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="homeScreenCharacterList" v-if="charactersList.length > 0" class="block">
+                    <div v-for="character in charactersList" class="listedCharacterHolder btn-group" role="group">
+                        <button type="button" class="btn listedCharacter"
+                            @click="loadCharacterSheet(character.characterId)">
+                            {{ character.name }}
+                        </button>
+                        <button type="button" class="btn btn-danger deleteCharacter"
+                            @click="deleteCharacter(character.characterId)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-x-octagon" viewBox="0 0 16 16">
+                                <path
+                                    d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z" />
+                                <path
+                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="characterSheet" v-if="showCharacterSheet" :key="1" class="appPage">
+                <div id="header" class="block">
+                    <button id="backToHomePage" class="block" onclick="backToHomePage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
+                            <path fill-rule="evenodd"
+                                d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                    </button>
+
+                    <div id="characterName" class="block">
+                        <input type="text" v-model="selectedCharacter.name">
+                    </div>
+
+                    <div class="characterInfo block">
+                        <div>
+                            <div id="classes">
+                                <input type="text" readonly @click="handleModalExhibition('classes')"
+                                    :value="selectedCharacter.classes[0]?.name ?? 'Classes'">
+                            </div>
+                            <div id="race">
+                                <input type="text" placeholder="Raça" v-model="selectedCharacter.race">
+                            </div>
+                        </div>
+                        <div>
+                            <div id="background">
+                                <input type="text" placeholder="Passado" v-model="selectedCharacter.background">
+                            </div>
+                            <div id="alignment">
+                                <input type="text" placeholder="Alinhamento" v-model="selectedCharacter.alignment">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="score" class="block">
+                    <transition-group name="habilityScoresTransition" appear>
+                        <div id="proficiencyBonus" class="block scoreComplement" :key="0" v-if="showHabilityScores[0]">
+                            Bônus de Proficiência:
+                            {{ selectedCharacter.proficiencyBonus }}
+                        </div>
+                        <div id="inspiration" class="block scoreComplement" :key="1" v-if="showHabilityScores[1]">
+                            Inspirações: <input id="inspirationInput" type="text"
+                                v-model="selectedCharacter.inspirationPoints">
+                        </div>
+                        <div id="strength" class="block hability" :key="2" v-if="showHabilityScores[2]">
+                            <b>Força</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.strength">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.strength }}</div>
+                                </div>
+                                <div class="skills block">
+                                    <div v-for="skill in selectedCharacter.skillScores.strength" class="habilitySkill">
+                                        <button class="skillProficiency"
+                                            @click="updateProficiencyArrays(skill.name, 'strength')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record"
+                                                viewBox="6 2 14 14">
+                                                <path
+                                                    d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-half"
+                                                viewBox="5 -2 24 24">
+                                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
+                                                viewBox="5 -2 24 24">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
+                                                viewBox="6 2 14 14">
+                                                <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                                                <path
+                                                    d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                            </svg>
+                                        </button>
+                                        <div class="skillModifier"> {{ skill.modifier }} </div>
+                                        <div class="skillName">{{ translate(skill.name) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="dexterity" class="block hability" :key="3" v-if="showHabilityScores[3]">
+                            <b>Destreza</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.dexterity">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.dexterity }}</div>
+                                </div>
+                                <div class="skills block">
+                                    <div v-for="skill in selectedCharacter.skillScores.dexterity" class="habilitySkill">
+                                        <button class="skillProficiency"
+                                            @click="updateProficiencyArrays(skill.name, 'dexterity')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record"
+                                                viewBox="6 2 14 14">
+                                                <path
+                                                    d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-half"
+                                                viewBox="5 -2 24 24">
+                                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
+                                                viewBox="5 -2 24 24">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
+                                                viewBox="6 2 14 14">
+                                                <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                                                <path
+                                                    d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                            </svg>
+                                        </button>
+                                        <div class="skillModifier"> {{ skill.modifier }} </div>
+                                        <div class="skillName">{{ translate(skill.name) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="constitution" class="block hability" :key="4" v-if="showHabilityScores[4]">
+                            <b>Constituição</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.constitution">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.constitution }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="inteligence" class="block hability" :key="5" v-if="showHabilityScores[5]">
+                            <b>Inteligência</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.inteligence">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.inteligence }}</div>
+                                </div>
+                                <div class="skills block">
+                                    <div v-for="skill in selectedCharacter.skillScores.inteligence"
+                                        class="habilitySkill">
+                                        <button class="skillProficiency"
+                                            @click="updateProficiencyArrays(skill.name, 'inteligence')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record"
+                                                viewBox="6 2 14 14">
+                                                <path
+                                                    d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-half"
+                                                viewBox="5 -2 24 24">
+                                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
+                                                viewBox="5 -2 24 24">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
+                                                viewBox="6 2 14 14">
+                                                <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                                                <path
+                                                    d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                            </svg>
+                                        </button>
+                                        <div class="skillModifier"> {{ skill.modifier }} </div>
+                                        <div class="skillName">{{ translate(skill.name) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="wisdom" class="block hability" :key="6" v-if="showHabilityScores[6]">
+                            <b>Sabedoria</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.wisdom">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.wisdom }}</div>
+                                </div>
+                                <div class="skills block">
+                                    <div v-for="skill in selectedCharacter.skillScores.wisdom" class="habilitySkill">
+                                        <button class="skillProficiency"
+                                            @click="updateProficiencyArrays(skill.name, 'wisdom')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record"
+                                                viewBox="6 2 14 14">
+                                                <path
+                                                    d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-half"
+                                                viewBox="5 -2 24 24">
+                                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
+                                                viewBox="5 -2 24 24">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
+                                                viewBox="6 2 14 14">
+                                                <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                                                <path
+                                                    d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                            </svg>
+                                        </button>
+                                        <div class="skillModifier"> {{ skill.modifier }} </div>
+                                        <div class="skillName">{{ translate(skill.name) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="charisma" class="block hability" :key="7" v-if="showHabilityScores[7]">
+                            <b>Carisma</b>
+                            <div class="habilityScore">
+                                <div class="mainHability">
+                                    <input type="text" v-model="selectedCharacter.charisma">
+                                    <div class="baseModidier">{{ selectedCharacter.baseModifiers.charisma }}</div>
+                                </div>
+                                <div class="skills block">
+                                    <div v-for="skill in selectedCharacter.skillScores.charisma" class="habilitySkill">
+                                        <button class="skillProficiency"
+                                            @click="updateProficiencyArrays(skill.name, 'charisma')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record"
+                                                viewBox="6 2 14 14">
+                                                <path
+                                                    d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-half"
+                                                viewBox="5 -2 24 24">
+                                                <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
+                                                viewBox="5 -2 24 24">
+                                                <circle cx="8" cy="8" r="8" />
+                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
+                                                width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
+                                                viewBox="6 2 14 14">
+                                                <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+                                                <path
+                                                    d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                            </svg>
+                                        </button>
+                                        <div class="skillModifier"> {{ skill.modifier }} </div>
+                                        <div class="skillName">{{ translate(skill.name) }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="passiveWisdom" class="block scoreComplement" :key="8" v-if="showHabilityScores[8]">
+                            Percepção Passiva: <div id="passiveWisdomInput">{{ passiveWisdom }}</div>
+                        </div>
+                    </transition-group>
+                </div>
+
+                <div id="combat" class="block">
+                    <div id="armorClass" class="block">
+                        <input type="text" v-model="selectedCharacter.armorClass">
+                    </div>
+                    <div id="initiative" class="block">
+                        <input type="text" v-model="selectedCharacter.initiative">
+                    </div>
+                    <div id="speeds" class="block"> Complex
+                        {{ selectedCharacter.speeds }}
+                    </div>
+                    <div id="hitPoints" class="block"> Complex
+                        {{ selectedCharacter.hitPoints }}
+                    </div>
+                    <div id="temporaryHitPoints" class="block">
+                        <input type="text" v-model="selectedCharacter.temporaryHitPoints">
+                    </div>
+                    <div id="hitDices" class="block"> Complex
+                        {{ selectedCharacter.hitDices }}
+                    </div>
+                    <div id="deathSaves" class="block"> Complex
+                        {{ selectedCharacter.deathSaves }}
+                    </div>
+                </div>
+
+                <div id="personality" class="block">
+                    <div id="traits" class="block">Complex {{ selectedCharacter.traits }}</div>
+                    <div id="ideals" class="block">Complex {{ selectedCharacter.ideals }}</div>
+                    <div id="bonds" class="block">Complex {{ selectedCharacter.bonds }}</div>
+                    <div id="flaws" class="block">Complex {{ selectedCharacter.flaws }}</div>
+                </div>
+
+                <div id="otherProficiencies" class="block">Complex {{ selectedCharacter.otherProficiencies }}</div>
+
+                <div id="actions" class="block">Complex {{ selectedCharacter.combat }}</div>
+
+                <div id="features" class="block">Complex {{ selectedCharacter.features }}</div>
+
+                <div id="equipment" class="block">Complex {{ selectedCharacter.equipment }}</div>
+            </div>
+            </transition>
+    </div>
+
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script src="../js/vueComponents.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
