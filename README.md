@@ -10,6 +10,16 @@ Items and Spells will work just the same, when adding items to your character, a
 
 The application is made with `Node.js`, being deployable thanks to `Electron`, the front-end comunicate with back-end through a restAPI and the fron-end is build in pre-compilated `Vue.js`, with style based on `Bootstrap`.
 
+# Application Execution
+
+1. Clone the repository
+1. Install the project: $ npm i
+1. Start the application: $ npm start
+
+**Build**
+
+1. $ npm run build
+
 # API Routing
 
 HOST: https://127.0.0.1:37456
