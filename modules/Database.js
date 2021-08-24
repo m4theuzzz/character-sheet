@@ -6,6 +6,20 @@ class Database {
     constructor(databaseDirectory) {
         this.pathToDatabases = path.join(path.join(path.join(path.join(__dirname, '../'), '../'), databaseDirectory), '');
         this.requiredTables = ['characters', 'items', 'spells'];
+
+        this.certificateThatPathToDatabasesExists();
+    }
+
+    certificateThatPathToDatabasesExists() {
+        if (!fs.existsSync(this.pathToDatabases)) {
+            fs.mkdir(this.pathToDatabases, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+        }
+
+        this.createRequiredTables();
     }
 
     tableExists(databaseName) {
@@ -33,11 +47,7 @@ class Database {
     }
 
     createTable(tableName) {
-        if (typeof tableName !== "string") {
-            throw "Nome da tabela inválido.";
-        }
-
-        let tableFileLocation = `${path.join(this.pathToDatabases, tableName)}.json`;
+        const tableFileLocation = `${path.join(this.pathToDatabases, tableName)}.json`;
 
         if (!fs.existsSync(tableFileLocation)) {
             fs.appendFile(tableFileLocation, `{"${tableName}": []}`, err => {

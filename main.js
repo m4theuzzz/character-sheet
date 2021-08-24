@@ -1,8 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const Database = require('./modules/Database');
 const express = require('express');
-
-const db = new Database('db');
 
 const PORT = 37456;
 
@@ -44,7 +41,6 @@ const startAPI = () => {
 }
 
 app.whenReady().then(() => {
-    db.createRequiredTables();
     startAPI();
     createWindow();
 

@@ -35,30 +35,26 @@ class Sheet {
 
     calculateModifiers() {
         return BASE_HABILITY_SCORES.reduce((acc, cur) => {
-            let modifier = Math.trunc(parseInt(this.characterObject[cur]) / 2) - 5;
+            const modifier = Math.trunc(parseInt(this.characterObject[cur]) / 2) - 5;
             acc[cur] = modifier >= 0 ? `+${modifier}` : `${modifier}`;
             return acc;
         }, {});
     }
 
     calculateProficiencyBonus() {
-        let levelsArray = this.characterObject.levels;
+        const levelsArray = this.characterObject.levels;
 
-        if (levelsArray.length == 0) {
-            return "+2";
-        }
-
-        let totalLevel = 0;
+        let maximumLevel = 0;
         for (let i = 0; i < levelsArray.length; i++) {
-            totalLevel += levelsArray[i].level;
+            maximumLevel = levelsArray[i].level > maximumLevel ? levelsArray[i].level : maximumLevel;
         }
-        return `+${Math.ceil(totalLevel / 4) + 1}`;
+        return proficiencyBonus = `+${Math.ceil(maximumLevel / 4) + 1}`;
     }
 
     calculateSkillModifiersWithProficiency() {
-        let halfSkills = this.characterObject.halfProficienciesArray;
-        let fullSkills = this.characterObject.proficienciesArray;
-        let doubleSkills = this.characterObject.doubleProficienciesArray;
+        const halfSkills = this.characterObject.halfProficienciesArray;
+        const fullSkills = this.characterObject.proficienciesArray;
+        const doubleSkills = this.characterObject.doubleProficienciesArray;
         return BASE_HABILITY_SCORES.reduce((acc, cur) => {
             if (SKILLS[cur].length == 0) {
                 return acc;

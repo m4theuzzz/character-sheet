@@ -1,6 +1,6 @@
 const Database = require('./Database');
 
-const db = new Database('cb');
+const db = new Database('db');
 
 const TABLE_NAME = 'spells';
 
