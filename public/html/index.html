@@ -334,25 +334,71 @@
                             </button>
                         </div>
                     </div>
-                    <div id="hitPoints" class="block"> Complex
-                        {{ selectedCharacter.hitPoints }}
+                    <div id="hitPoints">
+                        <div class="maximum">
+                            <input type="text" v-model="selectedCharacter.hitPoints.maximum">
+                        </div>
+                        <div class="floatable">
+                            <div class="current">
+                                <input type="text" v-model="selectedCharacter.hitPoints.current">
+                            </div>
+                            <div class="temporary">
+                                <input type="text" v-model="selectedCharacter.hitPoints.temporary">
+                            </div>
+                        </div>
                     </div>
-                    <div id="temporaryHitPoints" class="block">
-                        <input type="text" v-model="selectedCharacter.temporaryHitPoints">
-                    </div>
-                    <div id="hitDices" class="block"> Complex
-                        {{ selectedCharacter.hitDices }}
-                    </div>
-                    <div id="deathSaves" class="block"> Complex
-                        {{ selectedCharacter.deathSaves }}
+                    <div class="lastRow">
+                        <div id="hitDices">
+                            <input class="type" type="text" v-model="selectedCharacter.hitDices.type">
+                            <input class="current" type="text" v-model="selectedCharacter.hitDices.current">
+                        </div>
+                        <div id="deathSaves">
+                            <div class="block" onclick="updateSaves('successes')">
+                                Sucessos:
+                                <div class="progress">
+                                    <div id="successes"
+                                        class="progress-bar bg-success progress-bar-striped progress-bar-animated"
+                                        role="progressbar" v-bind:style="successesStyle"
+                                        :aria-valuenow="selectedCharacter.deathSaves.successes" aria-valuemin="0"
+                                        aria-valuemax="99"></div>
+                                </div>
+                            </div>
+
+                            <div class="block" onclick="updateSaves('failures')">
+                                Falhas:
+                                <div class="progress">
+                                    <div id="failures"
+                                        class="progress-bar bg-danger progress-bar-striped progress-bar-animated"
+                                        role="progressbar" v-bind:style="failuresStyle"
+                                        aria-valuenow="selectedCharacter.deathSaves.failures" aria-valuemin="0"
+                                        aria-valuemax="99"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div id="personality" class="block">
-                    <div id="traits" class="block">Complex {{ selectedCharacter.traits }}</div>
-                    <div id="ideals" class="block">Complex {{ selectedCharacter.ideals }}</div>
-                    <div id="bonds" class="block">Complex {{ selectedCharacter.bonds }}</div>
-                    <div id="flaws" class="block">Complex {{ selectedCharacter.flaws }}</div>
+                    <div id="traits">
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Traços de Personalidade')"> Traços de Personalidade
+                        </button>
+                    </div>
+                    <div id="ideals">
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Objetivos')"> Objetivos
+                        </button>
+                    </div>
+                    <div id="bonds">
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Laços')"> Laços
+                        </button>
+                    </div>
+                    <div id="flaws">
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Defeitos')"> Defeitos
+                        </button>
+                    </div>
                 </div>
 
                 <div id="otherProficiencies" class="block">Complex {{ selectedCharacter.otherProficiencies }}</div>
@@ -394,11 +440,13 @@
                         </div>
                     </div>
                     <div v-if="modal == 'Movimentos'" id="modalBody" class="modal-body">
-                        <div v-if="selectedCharacter.speedArray.length > 0" id="classesList" class="input-group block">
+                        <div v-if="selectedCharacter.speedArray.length > 0" id="movementsList"
+                            class="input-group block">
                             <ul>
                                 <li v-for="(move, index) in selectedCharacter['speedArray']">
                                     {{ move.name }}: <input type="number"
-                                        v-model="selectedCharacter['speedArray'][index]['value']">
+                                        v-model="selectedCharacter['speedArray'][index]['value']"> <button
+                                        @click="deleteMovement(index)">Delete</button>
                                 </li>
                             </ul>
                         </div>
@@ -415,11 +463,99 @@
                             </button>
                         </div>
                     </div>
+                    <div v-if="modal == 'Traços de Personalidade'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.personalityTraitsArray.length > 0" id="personalityTraitsList"
+                            class="input-group block">
+                            <ul>
+                                <li v-for="(trait, index) in selectedCharacter['personalityTraitsArray']">
+                                    {{ trait }}
+                                    <button @click="deleteTrait(index)">Delete</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Novo Traço" id="newTrait">
+                            <button type="button" class="input-group-text" onclick="addNewTrait()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="modal == 'Objetivos'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.idealsArray.length > 0" id="idealsList" class="input-group block">
+                            <ul>
+                                <li v-for="(ideal, index) in selectedCharacter['idealsArray']">
+                                    {{ ideal }}
+                                    <button @click="deleteIdeal(index)">Delete</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Novo Objetivo" id="newIdeal">
+                            <button type="button" class="input-group-text" onclick="addNewIdeal()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="modal == 'Laços'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.bondsArray.length > 0" id="bondsList" class="input-group block">
+                            <ul>
+                                <li v-for="(bond, index) in selectedCharacter['bondsArray']">
+                                    {{ bond }}
+                                    <button @click="deleteBond(index)">Delete</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Novo Laço" id="newBond">
+                            <button type="button" class="input-group-text" onclick="addNewBond()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="modal == 'Defeitos'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.flawsArray.length > 0" id="flawsList" class="input-group block">
+                            <ul>
+                                <li v-for="(flaw, index) in selectedCharacter['flawsArray']">
+                                    {{ flaw }}
+                                    <button @click="deleteFlaw(index)">Delete</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Novo Defeito" id="newFlaw">
+                            <button type="button" class="input-group-text" onclick="addNewFlaw()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="../../node_modules/vue/dist/vue.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>

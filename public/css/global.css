@@ -2,6 +2,8 @@
     --font-size-1: calc(100vw * .026);
     --font-size-2: calc(100vw * .012);
     --font-size-3: calc(100vw * .05);
+    --font-size-4: calc(100vw * .04);
+    --font-size-5: calc(100vw * .02);
     --svg-size-1: calc(100vw * .014);
     --svg-size-2: calc(100vw * .034);
     --skill-spacing: calc((-1 * .8vh) + (3vw - 12px));

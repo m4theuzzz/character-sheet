@@ -44,15 +44,10 @@ class Character {
         this.armorClass = characterInfo.armorClass ?? "";
         this.initiative = characterInfo.initiative ?? "";
         this.speedArray = characterInfo.speedArray ?? [];
-        this.maximumHitPoints = characterInfo.maximumHitPoints ?? "";
-        this.currentHitPoints = characterInfo.currentHitPoints ?? "";
-        this.temporaryHitPoints = characterInfo.temporaryHitPoints ?? "";
-        this.maximumHitDices = characterInfo.maximumHitDices ?? "";
-        this.currentHitDices = characterInfo.currentHitDices ?? "";
+        this.hitPoints = characterInfo.hitPoints ?? { "maximum": 0, "current": 0, "temporary": 0 };
+        this.hitDices = characterInfo.hitDices ?? { "type": "d8", "current": 1 };
         this.deathSaves = characterInfo.deathSaves ?? { "successes": 0, "failures": 0 };
-        this.actionsArray = characterInfo.actionsArray ?? [];
-        this.bonusActionsArray = characterInfo.bonusActionsArray ?? [];
-        this.reactionsArray = characterInfo.reactionsArray ?? [];
+        this.actions = characterInfo.actions ?? { "main": [], "bonus": [], "reactions": [] };
 
         //personalidade
         this.personalityTraitsArray = characterInfo.personalityTraitsArray ?? [];

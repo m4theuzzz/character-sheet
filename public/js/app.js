@@ -29,6 +29,20 @@ const app = new Vue({
             get: () => {
                 return parseInt(app.selectedCharacter.skillScores.wisdom.perception.modifier) + 10;
             }
+        },
+        failuresStyle: {
+            get: () => {
+                return {
+                    "width": `${app.selectedCharacter.deathSaves.failures * 34}%`
+                };
+            }
+        },
+        successesStyle: {
+            get: () => {
+                return {
+                    "width": `${app.selectedCharacter.deathSaves.successes * 34}%`
+                };
+            }
         }
     },
     watch: {
@@ -91,6 +105,21 @@ const app = new Vue({
         },
         updateProficiencyArrays: (skill, hability) => {
             alternateSkillProficiencyType(skill, hability);
+        },
+        deleteMovement(index) {
+            app.selectedCharacter.speedArray.splice(index, 1);
+        },
+        deleteTrait(index) {
+            app.selectedCharacter.personalityTraitsArray.splice(index, 1);
+        },
+        deleteIdeal(index) {
+            app.selectedCharacter.idealsArray.splice(index, 1);
+        },
+        deleteBond(index) {
+            app.selectedCharacter.bondsArray.splice(index, 1);
+        },
+        deleteFlaw(index) {
+            app.selectedCharacter.flawsArray.splice(index, 1);
         },
         translate: (skill) => {
             let translation = ""
@@ -252,6 +281,32 @@ const addNewClass = () => {
 const addNewSpeed = () => {
     const newSpeedName = document.getElementById('newSpeedName').value;
     app.selectedCharacter.speedArray.push({ "name": newSpeedName, "value": 9 });
+}
+
+const addNewTrait = () => {
+    const newTrait = document.getElementById('newTrait').value;
+    app.selectedCharacter.personalityTraitsArray.push(newTrait);
+}
+
+const addNewIdeal = () => {
+    const newIdeal = document.getElementById('newIdeal').value;
+    app.selectedCharacter.idealsArray.push(newIdeal);
+}
+
+const addNewBond = () => {
+    const newBond = document.getElementById('newBond').value;
+    app.selectedCharacter.bondsArray.push(newBond);
+}
+
+const addNewFlaw = () => {
+    const newFlaw = document.getElementById('newFlaw').value;
+    app.selectedCharacter.flawsArray.push(newFlaw);
+}
+
+const updateSaves = (type) => {
+    app.selectedCharacter.deathSaves[type] < 3 ?
+        app.selectedCharacter.deathSaves[type] += 1 :
+        app.selectedCharacter.deathSaves[type] = 0;
 }
 
 updateCharacterList();
