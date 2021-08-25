@@ -66,7 +66,7 @@
                     <div class="characterInfo block">
                         <div>
                             <div id="classes">
-                                <button type="button" class="btn btn-secondary block"
+                                <button type="button" class="btn btn-secondary block primaryButton"
                                     @click="handleModalExhibition('Classes')">
                                     {{ selectedCharacter.classes[0]?.name ?? 'Classes' }}{{
                                     selectedCharacter.classes[0]?.value ? ', ' + selectedCharacter.classes[0].value :
@@ -320,14 +320,19 @@
                 </div>
 
                 <div id="combat" class="block">
-                    <div id="armorClass" class="block">
-                        <input type="text" v-model="selectedCharacter.armorClass">
-                    </div>
-                    <div id="initiative" class="block">
-                        <input type="text" v-model="selectedCharacter.initiative">
-                    </div>
-                    <div id="speeds" class="block"> Complex
-                        {{ selectedCharacter.speeds }}
+                    <div class="row">
+                        <div id="armorClass" class="block">
+                            <input type="text" v-model="selectedCharacter.armorClass">
+                        </div>
+                        <div id="initiative" class="block">
+                            <input type="text" v-model="selectedCharacter.initiative">
+                        </div>
+                        <div id="speeds" class="block">
+                            <button type="button" class="btn btn-secondary block primaryButton"
+                                @click="handleModalExhibition('Movimentos')">
+                                {{ selectedCharacter.speedArray[0]?.value ?? '' }}
+                            </button>
+                        </div>
                     </div>
                     <div id="hitPoints" class="block"> Complex
                         {{ selectedCharacter.hitPoints }}
@@ -378,6 +383,28 @@
                         <div class="input-group">
                             <input type="text" placeholder="Nova Classe" id="newClassName">
                             <button type="button" class="input-group-text" onclick="addNewClass()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="modal == 'Movimentos'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.speedArray.length > 0" id="classesList" class="input-group block">
+                            <ul>
+                                <li v-for="(move, index) in selectedCharacter['speedArray']">
+                                    {{ move.name }}: <input type="number"
+                                        v-model="selectedCharacter['speedArray'][index]['value']">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Novo Movimento" id="newSpeedName">
+                            <button type="button" class="input-group-text" onclick="addNewSpeed()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd"

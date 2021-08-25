@@ -40,6 +40,27 @@ input {
     margin: 0.5%;
 }
 
+#combat .row {
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    left: 5.5%;
+    height: 20%;
+    width: 33%;
+}
+
+#combat .row * {
+    width: 100%;
+    margin: 1%;
+}
+
+#combat .row input, #combat .row button {
+    width: 100%;
+    height: 100%;
+    font-size: var(--font-size-3) !important;
+}
+
 #personality {
     width: 30%;
     height: 30%;
@@ -110,15 +131,18 @@ input {
     width: 100%;
 }
 
-#classes button {
-    margin-top: -.95%;
-    line-height: 0;
+.primaryButton {
     color: black;
     border: none;
 }
 
-#classes button:hover {
+.primaryButton:hover {
     color: white;
+}
+
+#classes button {
+    margin-top: -.95%;
+    line-height: 0;
 }
 
 .characterInfo {

@@ -249,4 +249,9 @@ const addNewClass = () => {
     app.selectedCharacter.classes.push({ "name": newClassName, "value": 1 });
 }
 
+const addNewSpeed = () => {
+    const newSpeedName = document.getElementById('newSpeedName').value;
+    app.selectedCharacter.speedArray.push({ "name": newSpeedName, "value": 9 });
+}
+
 updateCharacterList();
