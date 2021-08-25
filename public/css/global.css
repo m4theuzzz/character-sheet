@@ -1,9 +1,22 @@
+:root {
+    --font-size-1: calc(100vw * .026);
+    --font-size-2: calc(100vw * .012);
+    --svg-size-1: calc(100vw * .014);
+    --svg-size-2: calc(100vw * .034);
+    --skill-spacing: calc((-1 * .8vh) + (3vw - 12px));
+}
+
 [v-cloak] { display: none; }
 
 body {
     font-family: 'Poppins', sans-serif;
     display: flex;
     background-color: rgba(121, 121, 121, 0.1);
+    font-size: var(--font-size-1);
+}
+
+button {
+    font-size: var(--font-size-1) !important;
 }
 
 input {
@@ -23,14 +36,19 @@ input {
 
 .block {
     display: inline-block;
-    background-color: rgba(121, 121, 121, 0.2);
+    background-color: rgba(121, 121, 121, 0.1);
     border-radius: 4px;
     padding: 1%;
+}
+
+.modal-block {
+    background-color: rgb(229, 229, 229);
 }
 
 .page-enter-active, .page-leave-active {
     transition: opacity .3s ease;
 }
+
 .page-enter, .page-leave-to {
     opacity: 0;
 }

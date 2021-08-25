@@ -9,9 +9,22 @@ const app = new Vue({
         showCharacterSheet: false,
         showHabilityScores: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false },
         charactersList: [],
-        selectedCharacter: {}
+        selectedCharacter: {},
+        modal: ""
     },
     computed: {
+        proficiencyBonus: {
+            get: () => {
+                const levelsArray = app.selectedCharacter.classes;
+
+                let maximumLevel = 1;
+                for (let i = 0; i < levelsArray.length; i++) {
+                    maximumLevel = levelsArray[i].value > maximumLevel ? levelsArray[i].value : maximumLevel;
+                }
+
+                return `+${Math.ceil(maximumLevel / 4) + 1}`;
+            }
+        },
         passiveWisdom: {
             get: () => {
                 return parseInt(app.selectedCharacter.skillScores.wisdom.perception.modifier) + 10;
@@ -32,6 +45,10 @@ const app = new Vue({
                 Object.keys(updatedCharacter.baseModifiers).forEach(habilityScore => {
                     recalculateHabilityScoreModifier(habilityScore, updatedCharacter[habilityScore]);
                 });
+
+                for (let i = 0; i < updatedCharacter.classes.length; i++) {
+                    validateClassesExistence(updatedCharacter.classes[i], i);
+                }
 
                 fetch(`${API_URL}/characterSheet/${updatedCharacter.characterId}`, {
                     method: "PUT",
@@ -60,7 +77,11 @@ const app = new Vue({
                 goToCharacterSheet();
             });
         },
-        handleModalExhibition: (type) => { },
+        handleModalExhibition: (type) => {
+            var myModal = new bootstrap.Modal(document.getElementById('modal'));
+            app.modal = type;
+            myModal.toggle();
+        },
         deleteCharacter: (id) => {
             fetch(`${API_URL}/characters/${id}`, {
                 method: 'DELETE'
@@ -107,7 +128,7 @@ const recalculateHabilityScoreModifier = (habilityScore, value) => {
 
 const recalculateSkillsScoreModifier = (habilityScore, habilityScoreValue) => {
     const habilitySkills = app.selectedCharacter.skillScores[habilityScore];
-    const proficiencyBonus = calculateProficiencyBonus();
+    const proficiencyBonus = parseInt(app.proficiencyBonus);
 
     const halfProficiency = Math.trunc(0.5 * proficiencyBonus);
     const doubleProficiency = 2 * proficiencyBonus;
@@ -133,6 +154,10 @@ const recalculateSkillsScoreModifier = (habilityScore, habilityScoreValue) => {
 
         app.selectedCharacter.skillScores[habilityScore][skill]["modifier"] = habilityScoreValue;
     }
+}
+
+const validateClassesExistence = (classe, index) => {
+    parseInt(classe.value) > 0 ? true : app.selectedCharacter.classes.splice(index, 1);
 }
 
 const addNewCharacter = () => {
@@ -185,20 +210,6 @@ const dispatchHabilityScoresAnimation = () => {
     }
 };
 
-const calculateProficiencyBonus = () => {
-    const levelsArray = app.selectedCharacter.levels;
-
-    if (levelsArray.length == 0) {
-        return 2;
-    }
-
-    let totalLevel = 0;
-    for (let i = 0; i < levelsArray.length; i++) {
-        totalLevel += levelsArray[i].level;
-    }
-    return Math.ceil(totalLevel / 4) + 1;
-}
-
 const alternateSkillProficiencyType = (skill, hability) => {
     let position = app.selectedCharacter.halfProficienciesArray.indexOf(skill);
     const hasHalfProficiency = position != -1;
@@ -231,6 +242,11 @@ const alternateSkillProficiencyType = (skill, hability) => {
         app.selectedCharacter.halfProficienciesArray.push(skill)
         app.selectedCharacter.skillScores[hability][skill]["proficiency"] = "half";
     }
+}
+
+const addNewClass = () => {
+    const newClassName = document.getElementById('newClassName').value;
+    app.selectedCharacter.classes.push({ "name": newClassName, "value": 1 });
 }
 
 updateCharacterList();

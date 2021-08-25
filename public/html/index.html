@@ -61,15 +61,17 @@
                         </svg>
                     </button>
 
-                    <div id="characterName" class="block">
-                        <input type="text" v-model="selectedCharacter.name">
-                    </div>
+                    <input id="characterName" class="block" type="text" v-model="selectedCharacter.name">
 
                     <div class="characterInfo block">
                         <div>
                             <div id="classes">
-                                <input type="text" readonly @click="handleModalExhibition('classes')"
-                                    :value="selectedCharacter.classes[0]?.name ?? 'Classes'">
+                                <button type="button" class="btn btn-secondary block"
+                                    @click="handleModalExhibition('Classes')">
+                                    {{ selectedCharacter.classes[0]?.name ?? 'Classes' }}{{
+                                    selectedCharacter.classes[0]?.value ? ', ' + selectedCharacter.classes[0].value :
+                                    ''}}
+                                </button>
                             </div>
                             <div id="race">
                                 <input type="text" placeholder="Raça" v-model="selectedCharacter.race">
@@ -90,7 +92,7 @@
                     <transition-group name="habilityScoresTransition" appear>
                         <div id="proficiencyBonus" class="block scoreComplement" :key="0" v-if="showHabilityScores[0]">
                             Bônus de Proficiência:
-                            {{ selectedCharacter.proficiencyBonus }}
+                            {{ proficiencyBonus }}
                         </div>
                         <div id="inspiration" class="block scoreComplement" :key="1" v-if="showHabilityScores[1]">
                             Inspirações: <input id="inspirationInput" type="text"
@@ -109,23 +111,23 @@
                                             @click="updateProficiencyArrays(skill.name, 'strength')">
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path
                                                     d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-half"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <circle cx="8" cy="8" r="8" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
                                                 <path
                                                     d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -150,23 +152,23 @@
                                             @click="updateProficiencyArrays(skill.name, 'dexterity')">
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path
                                                     d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-half"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <circle cx="8" cy="8" r="8" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
                                                 <path
                                                     d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -201,23 +203,23 @@
                                             @click="updateProficiencyArrays(skill.name, 'inteligence')">
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path
                                                     d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-half"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <circle cx="8" cy="8" r="8" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
                                                 <path
                                                     d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -242,23 +244,23 @@
                                             @click="updateProficiencyArrays(skill.name, 'wisdom')">
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path
                                                     d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-half"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <circle cx="8" cy="8" r="8" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
                                                 <path
                                                     d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -283,23 +285,23 @@
                                             @click="updateProficiencyArrays(skill.name, 'charisma')">
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'none'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path
                                                     d="M8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1A5 5 0 1 0 8 3a5 5 0 0 0 0 10z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'half'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-half"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'full'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-circle-fill"
-                                                viewBox="5 -2 24 24">
+                                                viewBox="-2 -2 24 24">
                                                 <circle cx="8" cy="8" r="8" />
                                             </svg>
                                             <svg xmlns="http://www.w3.org/2000/svg" v-if="skill.proficiency == 'double'"
                                                 width="16" height="16" fill="currentColor" class="bi bi-record2-fill"
-                                                viewBox="6 2 14 14">
+                                                viewBox="2 2 14 14">
                                                 <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
                                                 <path
                                                     d="M8 13A5 5 0 1 0 8 3a5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
@@ -356,14 +358,45 @@
 
                 <div id="equipment" class="block">Complex {{ selectedCharacter.equipment }}</div>
             </div>
-            </transition>
+        </transition-group>
+
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content modal-block">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle"> {{ modal }} </h5>
+                    </div>
+                    <div v-if="modal == 'Classes'" id="modalBody" class="modal-body">
+                        <div v-if="selectedCharacter.classes.length > 0" id="classesList" class="input-group block">
+                            <ul>
+                                <li v-for="(classe, index) in selectedCharacter['classes']">
+                                    {{ classe.name }}: <input type="number"
+                                        v-model="selectedCharacter['classes'][index]['value']">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" placeholder="Nova Classe" id="newClassName">
+                            <button type="button" class="input-group-text" onclick="addNewClass()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+                                    <path fill-rule="evenodd"
+                                        d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../../node_modules/vue/dist/vue.js"></script>
-    <script src="../js/vueComponents.js"></script>
-    <script src="../js/app.js"></script>
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
 </body>
 
 </html>

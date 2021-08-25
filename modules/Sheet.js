@@ -28,8 +28,7 @@ class Sheet {
         this.characterObject = {
             ...this.characterObject,
             "baseModifiers": baseModifiers,
-            "skillScores": skillsScores,
-            "proficiencyBonus": proficiencyBonus
+            "skillScores": skillsScores
         };
     }
 
@@ -42,11 +41,11 @@ class Sheet {
     }
 
     calculateProficiencyBonus() {
-        const levelsArray = this.characterObject.levels;
+        const levelsArray = this.characterObject.classes;
 
-        let maximumLevel = 0;
+        let maximumLevel = 1;
         for (let i = 0; i < levelsArray.length; i++) {
-            maximumLevel = levelsArray[i].level > maximumLevel ? levelsArray[i].level : maximumLevel;
+            maximumLevel = levelsArray[i].value > maximumLevel ? levelsArray[i].value : maximumLevel;
         }
         return proficiencyBonus = `+${Math.ceil(maximumLevel / 4) + 1}`;
     }
