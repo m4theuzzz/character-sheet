@@ -31,13 +31,24 @@ class Database {
             throw "Tabela não existe.";
         }
 
-        let nextRowId = 0;
-
-        this.fetchAllRowsFromTable(tableName, allRows => {
-            nextRowId = allRows.length > 0 ? allRows[allRows.length - 1]["characterId"] + 1 : 1;
-        })
+        let nextRowId = this.getLastRowId(tableName) + 1 ?? 1;
 
         return nextRowId;
+    }
+
+    getLastRowId(tableName) {
+        if (!this.tableExists(tableName)) {
+            throw "Tabela não existe.";
+        }
+
+        const type = tableName.split('s')[0];
+
+        let lastRowId = 0;
+        this.fetchAllRowsFromTable(tableName, allRows => {
+            lastRowId = allRows.length > 0 ? allRows[allRows.length - 1][`${type}Id`] : null;
+        });
+
+        return lastRowId;
     }
 
     createRequiredTables() {

@@ -95,7 +95,7 @@
                             {{ proficiencyBonus }}
                         </div>
                         <div id="inspiration" class="block scoreComplement" :key="1" v-if="showHabilityScores[1]">
-                            Inspirações: <input id="inspirationInput" type="text"
+                            Inspirações: <input id="inspirationInput" type="number"
                                 v-model="selectedCharacter.inspirationPoints">
                         </div>
                         <div id="strength" class="block hability" :key="2" v-if="showHabilityScores[2]">
@@ -320,7 +320,7 @@
                 </div>
 
                 <div id="combat" class="block">
-                    <div class="row">
+                    <div class="firstRow">
                         <div id="armorClass" class="block">
                             <input type="text" v-model="selectedCharacter.armorClass">
                         </div>
@@ -401,13 +401,82 @@
                     </div>
                 </div>
 
-                <div id="otherProficiencies" class="block">Complex {{ selectedCharacter.otherProficiencies }}</div>
+                <div id="otherProficiencies" class="block">
+                    <div class="languages">
+                        Línguas: <br>
+                        <input type="text" v-model="selectedCharacter.otherProficiencies.languages">
+                    </div>
+                    <div class="armors">
+                        Armaduras: <br>
+                        <input type="text" v-model="selectedCharacter.otherProficiencies.armors">
+                    </div>
+                    <div class="weapons">
+                        Armas: <br>
+                        <input type="text" v-model="selectedCharacter.otherProficiencies.weapons">
+                    </div>
+                    <div class="tools">
+                        Ferramentas ou Instrumentos: <br>
+                        <input type="text" v-model="selectedCharacter.otherProficiencies.tools">
+                    </div>
+                </div>
 
-                <div id="actions" class="block">Complex {{ selectedCharacter.combat }}</div>
+                <div id="actions" class="block">
+                    <button class="btn block" @click="handleModalExhibition('Ações')">
+                        <div v-if="selectedCharacter.actions.main.length > 0">
+                            <div class="listedFeature" v-for></div>
+                        </div>
+                        <p v-else>Ações</p>
+                    </button>
 
-                <div id="features" class="block">Complex {{ selectedCharacter.features }}</div>
+                    <button class="btn block" @click="handleModalExhibition('Ações Bônus')">
+                        <div v-if="selectedCharacter.actions.bonus.length > 0">
+                            <div class="listedFeature" v-for></div>
+                        </div>
+                        <p v-else>Ações Bônus</p>
+                    </button>
 
-                <div id="equipment" class="block">Complex {{ selectedCharacter.equipment }}</div>
+                    <button class="btn block" @click="handleModalExhibition('Reações')">
+                        <div v-if="selectedCharacter.actions.reactions.length > 0">
+                            <div class="listedFeature" v-for></div>
+                        </div>
+                        <p v-else>Reações</p>
+                    </button>
+                </div>
+
+                <div id="features">
+                    <button class="btn block" @click="handleModalExhibition('Habilidades')">
+                        <div v-if="selectedCharacter.featuresArray.length > 0">
+                            <div class="listedFeature" v-for></div>
+                        </div>
+                        <p v-else>Habilidades</p>
+                    </button>
+                </div>
+
+                <div id="currency" class="block">
+                    <div class="platin">
+                        Platina:
+                        <input type="number" v-model="selectedCharacter.currency.platin">
+                    </div>
+                    <div class="gold">
+                        Ouro:
+                        <input type="number" v-model="selectedCharacter.currency.gold">
+                    </div>
+                    <div class="silver">
+                        Prata:
+                        <input type="number" v-model="selectedCharacter.currency.silver">
+                    </div>
+                    <div class="copper">
+                        Cobre:
+                        <input type="number" v-model="selectedCharacter.currency.copper">
+                    </div>
+                </div>
+
+                <div id="equipment">
+                    <button type="button" class="btn btn-secondary block primaryButton"
+                        @click="handleModalExhibition('Equipamentos')">
+                        Equipamentos
+                    </button>
+                </div>
             </div>
         </transition-group>
 
@@ -444,9 +513,17 @@
                             class="input-group block">
                             <ul>
                                 <li v-for="(move, index) in selectedCharacter['speedArray']">
-                                    {{ move.name }}: <input type="number"
-                                        v-model="selectedCharacter['speedArray'][index]['value']"> <button
-                                        @click="deleteMovement(index)">Delete</button>
+                                    <div class="block">
+                                        {{ move.name}}: <input type="number"
+                                            v-model="selectedCharacter['speedArray'][index]['value']"> <button
+                                            @click="deleteMovement(index)" class="deleter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -468,8 +545,16 @@
                             class="input-group block">
                             <ul>
                                 <li v-for="(trait, index) in selectedCharacter['personalityTraitsArray']">
-                                    {{ trait }}
-                                    <button @click="deleteTrait(index)">Delete</button>
+                                    <div class="block">
+                                        {{ trait }}
+                                        <button @click="deleteTrait(index)" class="deleter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -490,8 +575,16 @@
                         <div v-if="selectedCharacter.idealsArray.length > 0" id="idealsList" class="input-group block">
                             <ul>
                                 <li v-for="(ideal, index) in selectedCharacter['idealsArray']">
-                                    {{ ideal }}
-                                    <button @click="deleteIdeal(index)">Delete</button>
+                                    <div class="block">
+                                        {{ ideal }}
+                                        <button @click="deleteIdeal(index)" class="deleter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -512,8 +605,16 @@
                         <div v-if="selectedCharacter.bondsArray.length > 0" id="bondsList" class="input-group block">
                             <ul>
                                 <li v-for="(bond, index) in selectedCharacter['bondsArray']">
-                                    {{ bond }}
-                                    <button @click="deleteBond(index)">Delete</button>
+                                    <div class="block">
+                                        {{ bond }}
+                                        <button @click="deleteBond(index)" class="deleter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -534,8 +635,16 @@
                         <div v-if="selectedCharacter.flawsArray.length > 0" id="flawsList" class="input-group block">
                             <ul>
                                 <li v-for="(flaw, index) in selectedCharacter['flawsArray']">
-                                    {{ flaw }}
-                                    <button @click="deleteFlaw(index)">Delete</button>
+                                    <div class="block">
+                                        {{ flaw }}
+                                        <button @click="deleteFlaw(index)" class="deleter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -552,6 +661,68 @@
                             </button>
                         </div>
                     </div>
+                    <div v-if="modal == 'Equipamentos'" id="modalBody" class="modal-body">
+                        <div id="itemList">
+                            <div class="listedItem" v-for="(item, index) in selectedCharacter.equipmentArray">
+                                {{ item.name }} : <input type="number"
+                                    v-model="selectedCharacter.equipmentArray[index].quantity">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Adicionar Equipamento', false)">
+                            Adicionar Equipamento
+                        </button>
+                    </div>
+                    <div v-if="modal == 'Adicionar Equipamento'" id="modalBody" class="modal-body">
+                        <div id="addItemList">
+                            <div class="listedItem" v-for="item in allSavedItems">
+                                {{ item.name }}
+
+                                <button type="button" class="btn btn-secondary block primaryButton"
+                                    @click="addItemToCharacter(item)">+</button>
+
+                                <button @click="deleteItemFromDatabase(item.itemId)" class="deleter">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                        class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                    </svg>
+                                </button>
+
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Equipamentos', false)">
+                            Voltar
+                        </button>
+                        <button type="button" class="btn btn-secondary block primaryButton"
+                            @click="handleModalExhibition('Adicionar Novo Equipamento', false)">
+                            Adicionar Novo Equipamento
+                        </button>
+                    </div>
+                    <div v-if="modal == 'Adicionar Novo Equipamento'" id="modalBody" class="modal-body">
+                        <div class="newItem">
+                            <input placeholder="Nome do Item" type="text" id="newItemName">
+                            <select class="form-select" id="newItemType">
+                                <option value="">Selecione um Tipo</option>
+                                <option v-for="type in itemsTypes" :value="type">{{ otherTranslations(type) }}</option>
+                            </select>
+                            <select class="form-select" id="newItemRarity">
+                                <option value="">Selecione uma Raridade</option>
+                                <option v-for="rarity in itemsRarities" :value="rarity">{{ otherTranslations(rarity) }}
+                                </option>
+                            </select>
+                            <input placeholder="Peso do Item" type="text" id="newItemWeight">
+                            <input placeholder="Valor do Item" type="text" id="newItemValue">
+                            <textarea placeholder="Descrição" class="block" id="newItemDescription"></textarea>
+                            <button type="button" class="btn btn-secondary block primaryButton"
+                                @click="handleModalExhibition('Adicionar Equipamento', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton"
+                                @click="addNewItem()">Adicionar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -560,6 +731,8 @@
     <script src="../js/popper.min.js"></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/app.js"></script>
+    <script src="../js/sheetOperations.js"></script>
+    <script src="../js/itemsOperations.js"></script>
 </body>
 
 </html>

@@ -48,6 +48,7 @@ class Character {
         this.hitDices = characterInfo.hitDices ?? { "type": "d8", "current": 1 };
         this.deathSaves = characterInfo.deathSaves ?? { "successes": 0, "failures": 0 };
         this.actions = characterInfo.actions ?? { "main": [], "bonus": [], "reactions": [] };
+        this.spellCasting = characterInfo.spellCasting ?? { "hit": "+0", "difficultyClass": "0", "spellSlots": { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 }, "spellsList": [] };
 
         //personalidade
         this.personalityTraitsArray = characterInfo.personalityTraitsArray ?? [];
@@ -56,8 +57,9 @@ class Character {
         this.flawsArray = characterInfo.flawsArray ?? [];
 
         //personagem
-        this.otherProficienciesArray = characterInfo.otherProficienciesArray ?? [];
+        this.otherProficiencies = characterInfo.otherProficiencies ?? { "armors": "", "weapons": "", "languages": "", "tools": "" };
         this.equipmentArray = characterInfo.equipmentArray ?? [];
+        this.currency = characterInfo.currency ?? { "copper": 0, "silver": 0, "gold": 0, "platin": 0 };
         this.featuresArray = characterInfo.featuresArray ?? [];
 
         if (createNewCharacter) {

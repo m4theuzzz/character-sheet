@@ -14,14 +14,7 @@ exports.getAllItemsList = (req, res) => {
     let itemsList = [];
 
     db.fetchAllRowsFromTable(TABLE_NAME, items => {
-        if (items.length == 0) {
-            return res.status(200).send({ "items": itemsList });
-        }
-
-        itemsList = items.reduce((acc, cur) => {
-            acc.push({ "itemId": cur.itemId, "name": cur.name });
-            return acc;
-        }, []);
+        itemsList = items;
     });
 
     return res.status(200).send({ "items": itemsList });
@@ -30,7 +23,7 @@ exports.getAllItemsList = (req, res) => {
 exports.createNewItem = (req, res) => {
     const newItem = req.body.itemInfo;
     const item = new Item(0, newItem);
-    return res.status(200).send({ "response": "Item criado com sucesso." });
+    return res.status(200).send({ "itemId": item.itemId });
 };
 
 exports.getItemsConstants = (req, res) => {
@@ -42,15 +35,9 @@ exports.getItemsConstants = (req, res) => {
 }
 
 exports.getItemById = (req, res) => {
-    let item;
     const itemId = parseInt(req.params.id);
-    const filter = { "itemId": itemId };
-
-    db.fetchRowsWithFilter(TABLE_NAME, filter, items => {
-        item = items[0]
-    });
-
-    return res.status(200).send({ "item": item });
+    const item = new Item(itemId);
+    return res.status(200).send({ "item": item.getAllItemInformation() });
 };
 
 exports.updateItem = (req, res) => {

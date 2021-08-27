@@ -26,14 +26,15 @@ class Items {
         this.description = itemInfo.description ?? "";
 
         if (newItemInfo != null) {
-            insertNewItemInDatabase();
+            this.insertNewItemInDatabase();
         }
     }
 
     insertNewItemInDatabase() {
-        let item = { ...this };
+        this.itemId = db.getNextRowId(TABLE_NAME);
+        this.quantity = 1;
 
-        item.itemId = db.getNextRowId(TABLE_NAME);
+        let item = { ...this };
 
         return db.insertIntoTable(TABLE_NAME, item);
     }
