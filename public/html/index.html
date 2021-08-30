@@ -794,19 +794,29 @@
                         </div>
                     </div>
                     <div v-if="modal == 'Editar Equipamento'" id="modalBody" class="modal-body">
-                        <input placeholder="Nome do Item" type="text" v-model="editItem.name">
+                        Nome do Item:
+                        <input type="text" v-model="editItem.name">
+
+                        Tipo:
                         <select class="form-select" v-model="editItem.type">
-                            <option value="">Selecione um Tipo</option>
                             <option v-for="type in itemsTypes" :value="type">{{ otherTranslations(type) }}</option>
                         </select>
+
+                        Raridade:
                         <select class="form-select" v-model="editItem.rarity">
-                            <option value="">Selecione uma Raridade</option>
                             <option v-for="rarity in itemsRarities" :value="rarity">{{ otherTranslations(rarity) }}
                             </option>
                         </select>
+
+                        Peso:
                         <input placeholder="Peso do Item" type="text" v-model="editItem.weight">
+
+                        Valor:
                         <input placeholder="Valor do Item" type="text" v-model="editItem.value">
-                        <textarea placeholder="Descrição" class="block" v-model="editItem.description"></textarea>
+
+                        Descrição:
+                        <textarea placeholder="Descrição" class="formDescription block"
+                            v-model="editItem.description"></textarea>
                     </div>
                     <div v-if="modal == 'Editar Equipamento'" class="modal-footer">
                         <div class="clearfix">
@@ -843,7 +853,7 @@
                             <input placeholder="5pc" type="text" id="newItemValue">
 
                             Descrição:
-                            <textarea class="block" id="newItemDescription"></textarea>
+                            <textarea class="formDescription block" id="newItemDescription"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Novo Equipamento'" class="modal-footer">
@@ -904,7 +914,7 @@
                             classe, raça, etc.">
 
                         Descrição:
-                        <textarea class="block"
+                        <textarea class="formDescription block"
                             v-model="selectedCharacter.featuresArray[editArrayIndex].description"></textarea>
                     </div>
                     <div v-if="modal == 'Editar Habilidade'" class="modal-footer">
@@ -924,7 +934,7 @@
                             <input type="text" id="featureOrigin" placeholder="classe, raça, etc.">
 
                             Descrição:
-                            <textarea class="block" id="featureDescription"></textarea>
+                            <textarea class="formDescription block" id="featureDescription"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Habilidade'" class="modal-footer">
@@ -1069,7 +1079,7 @@
                             <input type="text" id="actionDamageType" placeholder="concussivo">
 
                             Descrição:
-                            <textarea class="block" id="actionDescription" placeholder="Descrição"></textarea>
+                            <textarea class="formDescription block" placeholder="Descrição"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Ação'" class="modal-footer">
