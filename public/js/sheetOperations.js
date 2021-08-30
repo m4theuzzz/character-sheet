@@ -168,7 +168,7 @@ const addNewFeature = () => {
     app.selectedCharacter.featuresArray.push(newFeature);
 }
 
-const addNewAction = (type) => {
+const addNewAction = (type, backTo) => {
     const hitType = document.getElementById('actionHitType').value;
     const hitOrDC = document.getElementById('actionHitDC').value;
     let newMainAction = {
@@ -183,6 +183,7 @@ const addNewAction = (type) => {
         newMainAction["difficultyClass"] = hitOrDC;
 
     app.selectedCharacter.actions[type].push(newMainAction);
+    app.modal = backTo;
 }
 
 const updateSaves = (type) => {
