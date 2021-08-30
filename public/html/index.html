@@ -836,12 +836,12 @@
                             <input type="text" id="newItemName">
 
                             Tipo:
-                            <select class="form-select" id="newItemType">
+                            <select id="newItemType">
                                 <option v-for="type in itemsTypes" :value="type">{{ otherTranslations(type) }}</option>
                             </select>
 
                             Raridade:
-                            <select class="form-select" id="newItemRarity">
+                            <select id="newItemRarity">
                                 <option v-for="rarity in itemsRarities" :value="rarity">{{ otherTranslations(rarity) }}
                                 </option>
                             </select>

@@ -46,11 +46,11 @@ button {
 }
 
 input, select {
-    background-color: var(--background-color-1) !important;
+    background-color: var(--background-color-1);
     border-radius: 6px;
     text-align: center;
-    border: 0 !important;
-    height: 4.2vh !important;
+    border: 0;
+    height: 4.2vh;
 }
 
 textarea {
