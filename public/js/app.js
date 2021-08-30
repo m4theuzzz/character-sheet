@@ -13,7 +13,8 @@ const app = new Vue({
         modal: "",
         itemsRarities: ["unknown", "commom", "uncommon", "rare", "very rare", "legendary", "artifact"],
         itemsTypes: ["item", "armor", "weapon"],
-        allSavedItems: []
+        allSavedItems: [],
+        editItem: {}
     },
     computed: {
         proficiencyBonus: {
@@ -100,11 +101,14 @@ const app = new Vue({
                 throw err;
             });
         },
-        handleModalExhibition: (type, build = true) => {
+        handleModalExhibition: (type, build = true, item = null) => {
             var myModal = new bootstrap.Modal(document.getElementById('modal'));
             myModal.hide();
             app.modal = type;
             build && myModal.show();
+            if (item != null) {
+                app.editItem = item;
+            }
         },
         deleteCharacter: (id) => {
             fetch(`${API_URL}/characters/${id}`, {
@@ -167,11 +171,13 @@ const app = new Vue({
             const reqHeader = { "content-type": "application/json" };
             const reqBody = JSON.stringify({ "itemInfo": itemObject });
 
-            fetch(`${API_URL}/items/${itemId}`, {
+            fetch(`${API_URL}/items/`, {
                 method: "PUT",
                 headers: reqHeader,
                 body: reqBody
             });
+
+            app.modal = 'Adicionar Equipamento';
         },
         deleteItemFromDatabase: (itemId) => {
             fetch(`${API_URL}/items/${itemId}`, {
@@ -196,6 +202,12 @@ const app = new Vue({
         },
         deleteFlaw(index) {
             app.selectedCharacter.flawsArray.splice(index, 1);
+        },
+        deleteFeat: (index) => {
+            app.selectedCharacter.featuresArray.splice(index, 1);
+        },
+        deleteAction: (index, type) => {
+            app.selectedCharacter.actions[type].splice(index, 1);
         },
         translate: (skill) => {
             let translation = "";
@@ -238,4 +250,10 @@ const app = new Vue({
             return translation;
         }
     }
+});
+
+$(document).ready(function () {
+    $("body").tooltip({
+        selector: '[data-bs-toggle=tooltip]'
+    });
 });

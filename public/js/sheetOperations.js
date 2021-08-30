@@ -158,6 +158,33 @@ const addNewFlaw = () => {
     app.selectedCharacter.flawsArray.push(newFlaw);
 }
 
+const addNewFeature = () => {
+    const newFeature = {
+        "title": document.getElementById('featureTitle').value,
+        "description": document.getElementById('featureDescription').value,
+        "origin": document.getElementById('featureOrigin').value
+    };
+
+    app.selectedCharacter.featuresArray.push(newFeature);
+}
+
+const addNewAction = (type) => {
+    const hitType = document.getElementById('actionHitType').value;
+    const hitOrDC = document.getElementById('actionHitDC').value;
+    let newMainAction = {
+        "name": document.getElementById('actionName').value,
+        "damage": document.getElementById('actionDamage').value,
+        "damageType": document.getElementById('actionDamageType').value ? `[${document.getElementById('actionDamageType').value}]` : '',
+        "description": document.getElementById('actionDescription').value
+    };
+
+    hitType == "hit" ?
+        newMainAction["hit"] = hitOrDC :
+        newMainAction["difficultyClass"] = hitOrDC;
+
+    app.selectedCharacter.actions[type].push(newMainAction);
+}
+
 const updateSaves = (type) => {
     app.selectedCharacter.deathSaves[type] < 3 ?
         app.selectedCharacter.deathSaves[type] += 1 :

@@ -9,19 +9,21 @@
     --background-color-wizard: rgba(0, 0, 255, 0.1);
     --background-color-warlock: rgba(111, 73, 172, 0.1);
     --background-color-rogue: rgba(0, 0, 0, 0.1);
-    --background-color-ranger: rgba(0, 255, 0, 0.1);
+    --background-color-ranger: rgba(0, 96, 0, 0.1);
     --background-color-paladin: rgba(172, 155, 85, 0.1);
     --background-color-monk: rgba(71, 142, 187, 0.1);
     --background-color-fighter: rgba(85, 57, 48, 0.1);
     --background-color-druid: rgba(124, 133, 71, 0.1);
-    --background-color-cleric: rgba(132, 133, 135, 0.1);
+    --background-color-cleric: rgba(110, 110, 110, 0.1);
     --background-color-bhunter: rgba(82, 15, 12, 0.1);
     --background-color-bard: rgba(158, 123, 163, 0.1);
     --background-color-barbarian: rgba(195, 119, 95, 0.1);
     --background-color-artificer: rgba(142, 122, 79, 0.1); */
-    --background-color-1: rgba(121, 121, 121, 0.1);
+    /* --background-color-1: rgba(155, 155, 155, 0.1); */
+    --background-color-1: rgba(155, 155, 155, 0.1);
     --svg-size-1: calc(100vw * .014);
     --svg-size-2: calc(100vw * .034);
+    --svg-size-3: calc(100vw * .028);
     --skill-spacing: calc((-1 * .8vh) + (3vw - 12px));
 }
 
@@ -36,6 +38,7 @@ body {
 
 button {
     font-size: var(--font-size-1) !important;
+    overflow: auto;
 }
 
 input {
@@ -47,6 +50,14 @@ input {
 textarea {
     resize: none;
     border: none;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
 }
 
 .appPage {
@@ -69,6 +80,29 @@ textarea {
     background-color: var(--background-color-1);
     border: none;
     border-radius: 4px;
+    width: 18% !important;
+    margin-top: 1%;
+}
+
+.deleter svg {
+    width: var(--svg-size-3);
+    height: var(--svg-size-3);
+}
+
+.adder {
+    background-color: var(--background-color-1);
+    border: none;
+    border-radius: 4px;
+    width: 18% !important;
+    margin-top: 1%;
+}
+
+.editter {
+    background-color: var(--background-color-1);
+    border: none;
+    border-radius: 4px;
+    width: 18% !important;
+    margin-top: 1%;
 }
 
 .modal-block {
@@ -83,6 +117,13 @@ textarea {
 
 #modalBody {
     font-size: var(--font-size-1);
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#modalBody * {
+    width: 100%;
+    margin-bottom: 1%;
 }
 
 .page-enter-active, .page-leave-active {
