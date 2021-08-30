@@ -166,6 +166,7 @@ const addNewFeature = () => {
     };
 
     app.selectedCharacter.featuresArray.push(newFeature);
+    app.modal = 'Habilidades';
 }
 
 const addNewAction = (type, backTo) => {

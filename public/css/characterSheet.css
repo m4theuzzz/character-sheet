@@ -401,12 +401,6 @@ input {
     flex-flow: column nowrap !important;
 }
 
-.itemManage, .featManage, .actionManage {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-}
-
 .minorInfo {
     font-size: var(--font-size-5);
 }
@@ -417,10 +411,13 @@ input {
     justify-content: space-around;
 }
 
-.sequencial p{
-    width: 33% !important;
+.sequencial p {
     overflow: scroll;
     padding-top: 1%;
+}
+
+.sequencial * {
+    margin-left: 1%;
 }
 
 .sequencial input {
@@ -431,6 +428,10 @@ input {
 .description {
     width: 100%;
     font-size: var(--font-size-5);
+}
+
+.description * {
+    width: 100%;
 }
 
 .details {
@@ -450,6 +451,10 @@ input {
 }
 
 .clearfix {
+    width: 100% !important;
+}
+
+.itemDescription {
     width: 100% !important;
 }
 

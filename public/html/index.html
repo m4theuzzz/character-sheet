@@ -722,7 +722,7 @@
                         <div id="itemList">
                             <div class="listedItem sequencial block"
                                 v-for="(item, index) in selectedCharacter.equipmentArray">
-                                <div class="itemManage">
+                                <div class="sequencial">
                                     <p class="listedTitle">{{ item.name }}</p>
                                     <input type="number" v-model="selectedCharacter.equipmentArray[index].quantity">
                                 </div>
@@ -732,7 +732,7 @@
                                         <p><i>Peso: {{ item.weight }}</i></p>
                                         <p><i>Valor: {{ item.value }}</i></p>
                                     </div>
-                                    <p>{{ item.description }}</p>
+                                    <p class="itemDescription">{{ item.description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -861,7 +861,7 @@
                     <div v-if="modal == 'Habilidades'" id="modalBody" class="modal-body">
                         <div id="featList">
                             <div class="listedFeat block" v-for="(feat, index) in selectedCharacter.featuresArray">
-                                <div class="featManage">
+                                <div class="sequencial">
                                     <p class="listedTitle">{{ feat.title }}</p>
 
                                     <button type="button" class="btn btn-secondary block primaryButton editter"
@@ -943,7 +943,7 @@
                         <div id="mainActionList">
                             <div class="listedMainAction block"
                                 v-for="(action, index) in selectedCharacter.actions.main">
-                                <div class="actionManage">
+                                <div class="sequencial">
                                     <p class="listedTitle">{{ action.name }}</p>
 
                                     <button @click="deleteAction(index, 'main')"
@@ -979,7 +979,7 @@
                         <div id="mainActionList">
                             <div class="listedBonusAction block"
                                 v-for="(action, index) in selectedCharacter.actions.bonus">
-                                <div class="actionManage">
+                                <div class="sequencial">
                                     <p class="listedTitle">{{ action.name }}</p>
 
                                     <button @click="deleteAction(index, 'bonus')"
@@ -1015,7 +1015,7 @@
                         <div id="mainActionList">
                             <div class="listedReaction block"
                                 v-for="(action, index) in selectedCharacter.actions.reactions">
-                                <div class="actionManage">
+                                <div class="sequencial">
                                     <p class="listedTitle">{{ action.name }}</p>
 
                                     <button @click="deleteAction(index, 'reactions')"
