@@ -555,7 +555,8 @@
                                     <div class="block sequencial">
                                         <p>{{ move.name}}:</p> <input type="number"
                                             v-model="selectedCharacter['speedArray'][index]['value']"> <button
-                                            @click="deleteMovement(index)" class="deleter">
+                                            @click="deleteMovement(index)"
+                                            class="btn btn-secondary block primaryButton deleter">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                                 <path
@@ -586,9 +587,10 @@
                             class="input-group block">
                             <ul>
                                 <li v-for="(trait, index) in selectedCharacter['personalityTraitsArray']">
-                                    <div class="block">
-                                        {{ trait }}
-                                        <button @click="deleteTrait(index)" class="deleter">
+                                    <div class="listedStrings block">
+                                        <p class="listedTitle">{{ trait }}</p>
+                                        <button @click="deleteTrait(index)"
+                                            class="btn btn-secondary block primaryButton deleter">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                                 <path
@@ -618,9 +620,10 @@
                         <div v-if="selectedCharacter.idealsArray.length > 0" id="idealsList" class="input-group block">
                             <ul>
                                 <li v-for="(ideal, index) in selectedCharacter['idealsArray']">
-                                    <div class="block">
-                                        {{ ideal }}
-                                        <button @click="deleteIdeal(index)" class="deleter">
+                                    <div class="listedStrings block">
+                                        <p class="listedTitle">{{ ideal }}</p>
+                                        <button @click="deleteIdeal(index)"
+                                            class="btn btn-secondary block primaryButton deleter">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                                 <path
@@ -650,9 +653,10 @@
                         <div v-if="selectedCharacter.bondsArray.length > 0" id="bondsList" class="input-group block">
                             <ul>
                                 <li v-for="(bond, index) in selectedCharacter['bondsArray']">
-                                    <div class="block">
-                                        {{ bond }}
-                                        <button @click="deleteBond(index)" class="deleter">
+                                    <div class="listedStrings block">
+                                        <p class="listedTitle">{{ bond }}</p>
+                                        <button @click="deleteBond(index)"
+                                            class="btn btn-secondary block primaryButton deleter">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                                 <path
@@ -682,9 +686,10 @@
                         <div v-if="selectedCharacter.flawsArray.length > 0" id="flawsList" class="input-group block">
                             <ul>
                                 <li v-for="(flaw, index) in selectedCharacter['flawsArray']">
-                                    <div class="block">
-                                        {{ flaw }}
-                                        <button @click="deleteFlaw(index)" class="deleter">
+                                    <div class="listedStrings block">
+                                        <p class="listedTitle">{{ flaw }}</p>
+                                        <button @click="deleteFlaw(index)"
+                                            class="btn btn-secondary block primaryButton deleter">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                                 <path
@@ -715,7 +720,7 @@
                             <div class="listedItem sequencial block"
                                 v-for="(item, index) in selectedCharacter.equipmentArray">
                                 <div class="itemManage">
-                                    <p>{{ item.name }}:</p>
+                                    <p class="listedTitle">{{ item.name }}</p>
                                     <input type="number" v-model="selectedCharacter.equipmentArray[index].quantity">
                                 </div>
                                 <div v-if="item.description != ''" class="description block">
@@ -739,12 +744,12 @@
                         <div id="addItemList">
                             <div class="listedItem block" v-for="item in allSavedItems">
                                 <div class="sequencial">
-                                    <p>{{ item.name }}</p>
+                                    <p class="listedTitle">{{ item.name }}</p>
 
                                     <button type="button" class="btn btn-secondary block primaryButton adder"
                                         @click="addItemToCharacter(item)">+</button>
 
-                                    <button type="button" class="btn btn-secondary block primaryButton adder"
+                                    <button type="button" class="btn btn-secondary block primaryButton editter"
                                         @click="handleModalExhibition('Editar Equipamento', false, item)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -753,7 +758,8 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="deleteItemFromDatabase(item.itemId)" class="deleter">
+                                    <button @click="deleteItemFromDatabase(item.itemId)"
+                                        class="btn btn-secondary block primaryButton deleter">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                             <path
@@ -773,14 +779,16 @@
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Equipamento'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Equipamentos', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Adicionar Novo Equipamento', false)">
-                            Adicionar Novo Equipamento
-                        </button>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Equipamentos', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                @click="handleModalExhibition('Adicionar Novo Equipamento', false)">
+                                Adicionar Novo Equipamento
+                            </button>
+                        </div>
                     </div>
                     <div v-if="modal == 'Editar Equipamento'" id="modalBody" class="modal-body">
                         <input placeholder="Nome do Item" type="text" v-model="editItem.name">
@@ -798,47 +806,72 @@
                         <textarea placeholder="Descrição" class="block" v-model="editItem.description"></textarea>
                     </div>
                     <div v-if="modal == 'Editar Equipamento'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Adicionar Equipamento', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="updateItem(editItem)">
-                            Salvar
-                        </button>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Adicionar Equipamento', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                @click="updateItem(editItem)">
+                                Salvar
+                            </button>
+                        </div>
                     </div>
                     <div v-if="modal == 'Adicionar Novo Equipamento'" id="modalBody" class="modal-body">
                         <div class="newItem">
-                            <input placeholder="Nome do Item" type="text" id="newItemName">
+                            Nome do Item:
+                            <input type="text" id="newItemName">
+
+                            Tipo:
                             <select class="form-select" id="newItemType">
-                                <option value="">Selecione um Tipo</option>
                                 <option v-for="type in itemsTypes" :value="type">{{ otherTranslations(type) }}</option>
                             </select>
+
+                            Raridade:
                             <select class="form-select" id="newItemRarity">
-                                <option value="">Selecione uma Raridade</option>
                                 <option v-for="rarity in itemsRarities" :value="rarity">{{ otherTranslations(rarity) }}
                                 </option>
                             </select>
-                            <input placeholder="Peso do Item" type="text" id="newItemWeight">
-                            <input placeholder="Valor do Item" type="text" id="newItemValue">
-                            <textarea placeholder="Descrição" class="block" id="newItemDescription"></textarea>
+
+                            Peso:
+                            <input placeholder="5 kg" type="text" id="newItemWeight">
+
+                            Valor:
+                            <input placeholder="5pc" type="text" id="newItemValue">
+
+                            Descrição:
+                            <textarea class="block" id="newItemDescription"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Novo Equipamento'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Adicionar Equipamento', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton" @click="addNewItem()">
-                            Adicionar
-                        </button>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Adicionar Equipamento', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                @click="addNewItem()">
+                                Adicionar
+                            </button>
+                        </div>
                     </div>
                     <div v-if="modal == 'Habilidades'" id="modalBody" class="modal-body">
                         <div id="featList">
                             <div class="listedFeat block" v-for="(feat, index) in selectedCharacter.featuresArray">
                                 <div class="featManage">
-                                    <p>{{ feat.title }}</p>
-                                    <button @click="deleteFeat(index)" class="deleter">
+                                    <p class="listedTitle">{{ feat.title }}</p>
+
+                                    <button type="button" class="btn btn-secondary block primaryButton editter"
+                                        @click="handleModalExhibition('Editar Habilidade', false, null, index)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                            <path
+                                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                        </svg>
+                                    </button>
+
+                                    <button @click="deleteFeat(index)"
+                                        class="btn btn-secondary block primaryButton deleter">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                             <path
@@ -859,39 +892,77 @@
                             Adicionar Habilidade
                         </button>
                     </div>
+                    <div v-if="modal == 'Editar Habilidade'" id="modalBody" class="modal-body">
+                        Nome da Habilidade:
+                        <input type="text" v-model="selectedCharacter.featuresArray[editArrayIndex].title">
+
+                        Origem:
+                        <input type="text" v-model="selectedCharacter.featuresArray[editArrayIndex].origin" placeholder="
+                            classe, raça, etc.">
+
+                        Descrição:
+                        <textarea class="block"
+                            v-model="selectedCharacter.featuresArray[editArrayIndex].description"></textarea>
+                    </div>
+                    <div v-if="modal == 'Editar Habilidade'" class="modal-footer">
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Habilidades', false)">
+                                Voltar
+                            </button>
+                        </div>
+                    </div>
                     <div v-if="modal == 'Adicionar Habilidade'" id="modalBody" class="modal-body">
                         <div class="newFeature">
-                            <input type="text" id="featureTitle" placeholder="Nome da Habilidade">
-                            <input type="text" id="featureOrigin" placeholder="Origem">
-                            <textarea id="featureDescription" placeholder="Descrição"></textarea>
+                            Nome da Habilidade:
+                            <input type="text" id="featureTitle">
+
+                            Origem:
+                            <input type="text" id="featureOrigin" placeholder="classe, raça, etc.">
+
+                            Descrição:
+                            <textarea class="block" id="featureDescription"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Habilidade'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Habilidades', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton" onclick="addNewFeature()">
-                            Adicionar Nova Habilidade
-                        </button>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Habilidades', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                onclick="addNewFeature()">
+                                Adicionar Nova Habilidade
+                            </button>
+                        </div>
                     </div>
                     <div v-if="modal == 'Ações Principais'" id="modalBody" class="modal-body">
                         <div id="mainActionList">
                             <div class="listedMainAction block"
                                 v-for="(action, index) in selectedCharacter.actions.main">
-                                <b>{{ action.name }}</b>
-                                <p class="minorInfo" v-if="action.hit">Acerto: {{ action.hit }}</p>
-                                <p class="minorInfo" v-if="action.difficultyClass">DC: {{ action.difficultyClass }}</p>
-                                <p class="minorInfo" v-if="action.damage != ''">Dano: {{ action.damage }}{{
-                                    action.damageType }}</p>
-                                <p class="minorInfo">{{ action.description }}</p>
-                                <button @click="deleteAction(index, 'main')" class="deleter">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                        class="bi bi-trash2-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
-                                    </svg>
-                                </button>
+                                <div class="actionManage">
+                                    <p class="listedTitle">{{ action.name }}</p>
+
+                                    <button @click="deleteAction(index, 'main')"
+                                        class="btn btn-secondary block primaryButton deleter">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="description block">
+                                    <div class="details">
+                                        <p class="minorInfo" v-if="action.hit"><i>Acerto: {{ action.hit }}</i></p>
+                                        <p class="minorInfo" v-if="action.difficultyClass"><i>DC: {{
+                                                action.difficultyClass
+                                                }}</i></p>
+                                        <p class="minorInfo" v-if="action.damage != ''"><i>Dano: {{ action.damage }}{{
+                                                action.damageType }}</i></p>
+                                    </div>
+                                    <p class="minorInfo">{{ action.description }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -905,19 +976,29 @@
                         <div id="mainActionList">
                             <div class="listedBonusAction block"
                                 v-for="(action, index) in selectedCharacter.actions.bonus">
-                                <b>{{ action.name }}</b>
-                                <p class="minorInfo" v-if="action.hit">Acerto: {{ action.hit }}</p>
-                                <p class="minorInfo" v-if="action.difficultyClass">DC: {{ action.difficultyClass }}</p>
-                                <p class="minorInfo" v-if="action.damage != ''">Dano: {{ action.damage }}{{
-                                    action.damageType }}</p>
-                                <p class="minorInfo">{{ action.description }}</p>
-                                <button @click="deleteAction(index, 'bonus')" class="deleter">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                        class="bi bi-trash2-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
-                                    </svg>
-                                </button>
+                                <div class="actionManage">
+                                    <p class="listedTitle">{{ action.name }}</p>
+
+                                    <button @click="deleteAction(index, 'bonus')"
+                                        class="btn btn-secondary block primaryButton deleter">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="description block">
+                                    <div class="details">
+                                        <p class="minorInfo" v-if="action.hit"><i>Acerto: {{ action.hit }}</i></p>
+                                        <p class="minorInfo" v-if="action.difficultyClass"><i>DC: {{
+                                                action.difficultyClass
+                                                }}</i></p>
+                                        <p class="minorInfo" v-if="action.damage != ''"><i>Dano: {{ action.damage }}{{
+                                                action.damageType }}</i></p>
+                                    </div>
+                                    <p class="minorInfo">{{ action.description }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -931,19 +1012,29 @@
                         <div id="mainActionList">
                             <div class="listedReaction block"
                                 v-for="(action, index) in selectedCharacter.actions.reactions">
-                                <b>{{ action.name }}</b>
-                                <p class="minorInfo" v-if="action.hit">Acerto: {{ action.hit }}</p>
-                                <p class="minorInfo" v-if="action.difficultyClass">DC: {{ action.difficultyClass }}</p>
-                                <p class="minorInfo" v-if="action.damage != ''">Dano: {{ action.damage }}{{
-                                    action.damageType }}</p>
-                                <p class="minorInfo">{{ action.description }}</p>
-                                <button @click="deleteAction(index, 'reactions')" class="deleter">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                        class="bi bi-trash2-fill" viewBox="0 0 16 16">
-                                        <path
-                                            d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
-                                    </svg>
-                                </button>
+                                <div class="actionManage">
+                                    <p class="listedTitle">{{ action.name }}</p>
+
+                                    <button @click="deleteAction(index, 'reactions')"
+                                        class="btn btn-secondary block primaryButton deleter">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
+                                            <path
+                                                d="M2.037 3.225A.703.703 0 0 1 2 3c0-1.105 2.686-2 6-2s6 .895 6 2a.702.702 0 0 1-.037.225l-1.684 10.104A2 2 0 0 1 10.305 15H5.694a2 2 0 0 1-1.973-1.671L2.037 3.225zm9.89-.69C10.966 2.214 9.578 2 8 2c-1.58 0-2.968.215-3.926.534-.477.16-.795.327-.975.466.18.14.498.307.975.466C5.032 3.786 6.42 4 8 4s2.967-.215 3.926-.534c.477-.16.795-.327.975-.466-.18-.14-.498-.307-.975-.466z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div v-if="action.description || action.hit || action.damage" class="description block">
+                                    <div class="details">
+                                        <p class="minorInfo" v-if="action.hit"><i>Acerto: {{ action.hit }}</i></p>
+                                        <p class="minorInfo" v-if="action.difficultyClass"><i>DC: {{
+                                                action.difficultyClass
+                                                }}</i></p>
+                                        <p class="minorInfo" v-if="action.damage != ''"><i>Dano: {{ action.damage }}{{
+                                                action.damageType }}</i></p>
+                                    </div>
+                                    <p class="minorInfo">{{ action.description }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -953,74 +1044,66 @@
                             Adicionar Reação
                         </button>
                     </div>
-                    <div v-if="modal == 'Adicionar Ação'" id="modalBody" class="modal-body">
+                    <div v-if="modal == 'Adicionar Ação' || modal == 'Adicionar Ação Bônus' || modal == 'Adicionar Reação'"
+                        id="modalBody" class="modal-body">
                         <div class="newAction">
+                            Nome da Ação:
                             <input type="text" id="actionName" placeholder="Nome da Ação">
+
+                            Tipo:
                             <select id="actionHitType">
                                 <option value="hit">Acerto</option>
                                 <option value="difficultyClass">Classe de Dificuldade</option>
                             </select>
-                            <input type="text" id="actionHitDC" placeholder="Acerto/Dificuldade">
-                            <input type="text" id="actionDamage" placeholder="Dano">
-                            <input type="text" id="actionDamageType" placeholder="Tipo de Dano">
-                            <textarea id="actionDescription" placeholder="Descrição"></textarea>
+
+                            Bônus de Acerto ou Classe de Dificuldade:
+                            <input type="text" id="actionHitDC">
+
+                            Dano:
+                            <input type="text" id="actionDamage" placeholder="1d6 + 2">
+
+                            Tipo de Dano
+                            <input type="text" id="actionDamageType" placeholder="concussivo">
+
+                            Descrição:
+                            <textarea class="block" id="actionDescription" placeholder="Descrição"></textarea>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Ação'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Ações Principais', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            onclick="addNewAction('main')">
-                            Adicionar Nova Ação
-                        </button>
-                    </div>
-                    <div v-if="modal == 'Adicionar Ação Bônus'" id="modalBody" class="modal-body">
-                        <div class="newAction">
-                            <input type="text" id="actionName" placeholder="Nome da Ação">
-                            <select id="actionHitType">
-                                <option value="hit">Acerto</option>
-                                <option value="difficultyClass">Classe de Dificuldade</option>
-                            </select>
-                            <input type="text" id="actionHitDC" placeholder="Acerto/Dificuldade">
-                            <input type="text" id="actionDamage" placeholder="Dano">
-                            <input type="text" id="actionDamageType" placeholder="Tipo de Dano">
-                            <textarea id="actionDescription" placeholder="Descrição"></textarea>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Ações Principais', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                onclick="addNewAction('main')">
+                                Adicionar Nova Ação
+                            </button>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Ação Bônus'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Ações Bônus', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            onclick="addNewAction('bonus')">
-                            Adicionar Nova Ação Bônus
-                        </button>
-                    </div>
-                    <div v-if="modal == 'Adicionar Reação'" id="modalBody" class="modal-body">
-                        <div class="newAction">
-                            <input type="text" id="actionName" placeholder="Nome da Ação">
-                            <select id="actionHitType">
-                                <option value="hit">Acerto</option>
-                                <option value="difficultyClass">Classe de Dificuldade</option>
-                            </select>
-                            <input type="text" id="actionHitDC" placeholder="Acerto/Dificuldade">
-                            <input type="text" id="actionDamage" placeholder="Dano">
-                            <input type="text" id="actionDamageType" placeholder="Tipo de Dano">
-                            <textarea id="actionDescription" placeholder="Descrição"></textarea>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Ações Bônus', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                onclick="addNewAction('bonus')">
+                                Adicionar Nova Ação Bônus
+                            </button>
                         </div>
                     </div>
                     <div v-if="modal == 'Adicionar Reação'" class="modal-footer">
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            @click="handleModalExhibition('Reações', false)">
-                            Voltar
-                        </button>
-                        <button type="button" class="btn btn-secondary block primaryButton"
-                            onclick="addNewAction('reactions')">
-                            Adicionar Nova Reação
-                        </button>
+                        <div class="clearfix">
+                            <button type="button" class="btn btn-secondary block primaryButton float-start"
+                                @click="handleModalExhibition('Reações', false)">
+                                Voltar
+                            </button>
+                            <button type="button" class="btn btn-secondary block primaryButton float-end"
+                                onclick="addNewAction('reactions')">
+                                Adicionar Nova Reação
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

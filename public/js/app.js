@@ -14,7 +14,8 @@ const app = new Vue({
         itemsRarities: ["unknown", "commom", "uncommon", "rare", "very rare", "legendary", "artifact"],
         itemsTypes: ["item", "armor", "weapon"],
         allSavedItems: [],
-        editItem: {}
+        editItem: {},
+        editArrayIndex: -1
     },
     computed: {
         proficiencyBonus: {
@@ -101,13 +102,16 @@ const app = new Vue({
                 throw err;
             });
         },
-        handleModalExhibition: (type, build = true, item = null) => {
+        handleModalExhibition: (type, build = true, item = null, arrayIndex = -1) => {
             var myModal = new bootstrap.Modal(document.getElementById('modal'));
             myModal.hide();
             app.modal = type;
             build && myModal.show();
             if (item != null) {
                 app.editItem = item;
+            }
+            if (arrayIndex > -1) {
+                app.editArrayIndex = arrayIndex;
             }
         },
         deleteCharacter: (id) => {

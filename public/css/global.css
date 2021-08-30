@@ -89,15 +89,7 @@ ul {
     height: var(--svg-size-3);
 }
 
-.adder {
-    background-color: var(--background-color-1);
-    border: none;
-    border-radius: 4px;
-    width: 18% !important;
-    margin-top: 1%;
-}
-
-.editter {
+.adder, .editter  {
     background-color: var(--background-color-1);
     border: none;
     border-radius: 4px;
