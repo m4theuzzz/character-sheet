@@ -1,7 +1,6 @@
 #diary {
     display: flex;
     flex-flow: row wrap;
-
 }
 
 #diaryPage {
