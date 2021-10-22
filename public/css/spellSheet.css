@@ -1,4 +1,25 @@
 #spellSheet {
     display: flex;
     flex-flow: row wrap;
+    align-items: flex-start;
+}
+
+#spellsHolder {
+    position: absolute;
+    width: 100%;
+    top: 7.5vh;
+    width: 98vw;
+    left: 1%;
+    padding: 1% 0 0 1%;
+}
+
+.spellList {
+    width: 31.36vw;
+    margin: 0 1% 1% 0;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.spellList p {
+    font-size: var(--font-size-1);
 }

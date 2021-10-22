@@ -18,12 +18,14 @@ class Spell {
 
         this.spellId = spellInfo.spellId ?? 0;
         this.name = spellInfo.name ?? "";
+        this.school = spellInfo.school ?? "";
         this.level = spellInfo.level ?? 0;
-        this.classes = spellInfo.classes ?? [];
-        this.casting = spellInfo.casting ?? { "time": 1, "type": "action", "ritual": false };
+        this.classes = spellInfo.classes ?? "";
+        this.casting = spellInfo.casting ?? { "time": 1, "type": "ação", "ritual": false };
         this.range = spellInfo.range ?? { "type": "ranged", "distance": 9 };
-        this.damage = spellInfo.damage ?? { "numberOfDices": 1, "diceType": "d6", "damageType": "fire" };
-        this.duration = spellInfo.duration ?? { "type": "concentration", "value": 1, "count": "minute" };
+        this.damages = spellInfo.damages ?? []; //{ "numberOfDices": 1, "diceType": "d6", "damageType": "fogo" }
+        this.conditions = spellInfo.conditions ?? []; //{ "name": "", "duration": "" }
+        this.duration = spellInfo.duration ?? { "type": "concentração", "value": 1, "count": "minuto" };
         this.components = spellInfo.components ?? { "verbal": false, "somatic": false, "material": [] };
         this.description = spellInfo.description ?? "";
         this.origin = spellInfo.origin ?? "Player's Handbook";

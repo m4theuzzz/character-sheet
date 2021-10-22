@@ -53,6 +53,18 @@ const app = new Vue({
                     "width": `${app.selectedCharacter.deathSaves.successes * 34}%`
                 };
             }
+        },
+        gotSpellsLevel: {
+            get: () => {
+                return app.selectedCharacter.spellCasting.spellsList
+                    .reduce((list, spell) => {
+                        if (list.indexOf(spell.level) == -1) {
+                            list.push(spell.level);
+                        }
+
+                        return list;
+                    }, []).sort();
+            }
         }
     },
     watch: {
@@ -197,19 +209,44 @@ const app = new Vue({
         updateProficiencyArrays: (skill, hability) => {
             alternateSkillProficiencyType(skill, hability);
         },
-        deleteMovement(index) {
+        getSpellsByLevel: (spellLevel) => {
+            return app.selectedCharacter.spellCasting.spellsList.filter((spell) => {
+                if (spell.level == spellLevel) {
+                    return spell;
+                }
+            });
+        },
+        getListedSpellTooltipText: (spell) => {
+            let text = "";
+            if (spell.damages.length > 0) {
+                let plural = spell.damages.length == 1 ? false : true;
+                text += `<p class="tooltipText">Dano${plural ? "s" : ""}: `;
+                spell.damages.forEach((damage, index) => {
+                    text += `${damage.numberOfDices}${damage.diceType}[${damage.damageType}]${!plural || spell.damages.length == index + 1 ? ";</p>" : ", "}`
+                });
+            }
+            if (spell.conditions.length > 0) {
+                let plural = spell.conditions.length == 1 ? false : true;
+                text += `<p class="tooltipText">Condiç${plural ? "ões" : "ão"}: `;
+                spell.conditions.forEach((condition, index) => {
+                    text += `${condition}${!plural || spell.conditions.length == index + 1 ? ";</p>" : ", "}`;
+                });
+            }
+            return text;
+        },
+        deleteMovement: (index) => {
             app.selectedCharacter.speedArray.splice(index, 1);
         },
-        deleteTrait(index) {
+        deleteTrait: (index) => {
             app.selectedCharacter.personalityTraitsArray.splice(index, 1);
         },
-        deleteIdeal(index) {
+        deleteIdeal: (index) => {
             app.selectedCharacter.idealsArray.splice(index, 1);
         },
-        deleteBond(index) {
+        deleteBond: (index) => {
             app.selectedCharacter.bondsArray.splice(index, 1);
         },
-        deleteFlaw(index) {
+        deleteFlaw: (index) => {
             app.selectedCharacter.flawsArray.splice(index, 1);
         },
         deleteFeat: (index) => {

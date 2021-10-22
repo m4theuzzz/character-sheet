@@ -559,7 +559,15 @@
                         </div>
                     </div>
                 </div>
-                <div id="spellsHolder">
+                <div id="spellsHolder" class="block">
+                    <div class="spellList block" v-for="spellLevel of gotSpellsLevel">
+                        <p v-if="spellLevel == 0"><b>Truques</b></p>
+                        <p v-else><b>Magias Nível {{ spellLevel }}</b></p>
+                        <div class="listedSpell block" v-for="spell of getSpellsByLevel(spellLevel)"
+                            data-bs-toggle="tooltip" data-bs-html="true" :title="getListedSpellTooltipText(spell)">
+                            {{ spell.name }}
+                        </div>
+                    </div>
                 </div>
             </div>
 
