@@ -1,0 +1,14 @@
+#diary {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+#diaryPage {
+    width: 98vw;
+    height: 91vh;
+    display: flex;
+    position: absolute;
+    top: 7.4%;
+    margin: 1%;
+}

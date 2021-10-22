@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/homeScreen.css">
     <link rel="stylesheet" href="../css/characterSheet.css">
+    <link rel="stylesheet" href="../css/spellSheet.css">
+    <link rel="stylesheet" href="../css/detailsSheet.css">
+    <link rel="stylesheet" href="../css/diary.css">
     <title>Character Sheet</title>
 </head>
 
@@ -53,7 +56,7 @@
 
             <div id="characterSheet" v-if="showCharacterSheet" :key="1" class="appPage">
                 <div id="header" class="block">
-                    <button id="backToHomePage" class="block" onclick="backToHomePage()">
+                    <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                             class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
                             <path fill-rule="evenodd"
@@ -518,7 +521,150 @@
                     </button>
                 </div>
             </div>
+
+            <div id="spellSheet" v-if="showSpellSheet" :key="2" class="appPage">
+                <div id="header" class="block">
+                    <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
+                            <path fill-rule="evenodd"
+                                d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                    </button>
+
+                    <input id="characterName" class="block" type="text" v-model="selectedCharacter.name"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nome do Personagem">
+
+                    <div class="characterInfo block">
+                        <div>
+                            <div id="classes" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Classes">
+                                <button type="button" class="btn btn-secondary block primaryButton"
+                                    @click="handleModalExhibition('Classes')">
+                                    {{ selectedCharacter.classes[0]?.name ?? 'Classes' }}{{
+                                    selectedCharacter.classes[0]?.value ? ', ' + selectedCharacter.classes[0].value :
+                                    ''}}
+                                </button>
+                            </div>
+                            <div id="race" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Raça">
+                                <input type="text" placeholder="Raça" v-model="selectedCharacter.race">
+                            </div>
+                        </div>
+                        <div>
+                            <div id="background" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Passado">
+                                <input type="text" placeholder="Passado" v-model="selectedCharacter.background">
+                            </div>
+                            <div id="alignment" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alinhamento">
+                                <input type="text" placeholder="Alinhamento" v-model="selectedCharacter.alignment">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="detailsSheet" v-if="showDetailsSheet" :key="3" class="appPage">
+                <div id="header" class="block">
+                    <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
+                            <path fill-rule="evenodd"
+                                d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                    </button>
+
+                    <input id="characterName" class="block" type="text" v-model="selectedCharacter.name"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nome do Personagem">
+
+                    <div class="characterInfo block">
+                        <div>
+                            <div id="classes" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Classes">
+                                <button type="button" class="btn btn-secondary block primaryButton"
+                                    @click="handleModalExhibition('Classes')">
+                                    {{ selectedCharacter.classes[0]?.name ?? 'Classes' }}{{
+                                    selectedCharacter.classes[0]?.value ? ', ' + selectedCharacter.classes[0].value :
+                                    ''}}
+                                </button>
+                            </div>
+                            <div id="race" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Raça">
+                                <input type="text" placeholder="Raça" v-model="selectedCharacter.race">
+                            </div>
+                        </div>
+                        <div>
+                            <div id="background" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Passado">
+                                <input type="text" placeholder="Passado" v-model="selectedCharacter.background">
+                            </div>
+                            <div id="alignment" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alinhamento">
+                                <input type="text" placeholder="Alinhamento" v-model="selectedCharacter.alignment">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="diary" v-if="showDiary" :key="4" class="appPage">
+                <div id="header" class="block">
+                    <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
+                            <path fill-rule="evenodd"
+                                d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                        </svg>
+                    </button>
+
+                    <input id="characterName" class="block" type="text" v-model="selectedCharacter.name"
+                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Nome do Personagem">
+
+                    <div class="characterInfo block">
+                        <div>
+                            <div id="classes" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Classes">
+                                <button type="button" class="btn btn-secondary block primaryButton"
+                                    @click="handleModalExhibition('Classes')">
+                                    {{ selectedCharacter.classes[0]?.name ?? 'Classes' }}{{
+                                    selectedCharacter.classes[0]?.value ? ', ' + selectedCharacter.classes[0].value :
+                                    ''}}
+                                </button>
+                            </div>
+                            <div id="race" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Raça">
+                                <input type="text" placeholder="Raça" v-model="selectedCharacter.race">
+                            </div>
+                        </div>
+                        <div>
+                            <div id="background" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Passado">
+                                <input type="text" placeholder="Passado" v-model="selectedCharacter.background">
+                            </div>
+                            <div id="alignment" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alinhamento">
+                                <input type="text" placeholder="Alinhamento" v-model="selectedCharacter.alignment">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <textarea id="diaryPage" v-model="selectedCharacter.diary" class="block"></textarea>
+            </div>
         </transition-group>
+
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+            id="offcanvas" aria-labelledby="offcanvasLabel">
+            <div class="offcanvas-header">
+                <p>{{ selectedCharacter.name }}</p>
+                <button id="offcanvasClose" type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="pageChangeButtons">
+                    <button v-if="!showCharacterSheet" onclick="goToCharacterSheet()" data-bs-dismiss="offcanvas"
+                        class="btn btn-secondary primaryButton block">Ficha de
+                        Personagem</button>
+                    <button v-if="!showSpellSheet" onclick="goToSpellSheet()" data-bs-dismiss="offcanvas"
+                        class="btn btn-secondary primaryButton block">Ficha de Magia</button>
+                    <button v-if="!showDetailsSheet" onclick="goToDetailsSheet()" data-bs-dismiss="offcanvas"
+                        class="btn btn-secondary primaryButton block">Características</button>
+                    <button v-if="!showDiary" onclick="goToDiary()" class="btn btn-secondary primaryButton block"
+                        data-bs-dismiss="offcanvas">Diário</button>
+                </div>
+                <button v-if="!showHomePage" id="exitButton" class="btn btn-secondary primaryButton block"
+                    data-bs-dismiss="offcanvas" onclick="backToHomePage()">
+                    Sair
+                </button>
+            </div>
+        </div>
 
         <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

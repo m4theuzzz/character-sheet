@@ -61,6 +61,7 @@ class Character {
         this.equipmentArray = characterInfo.equipmentArray ?? [];
         this.currency = characterInfo.currency ?? { "copper": 0, "silver": 0, "gold": 0, "platin": 0 };
         this.featuresArray = characterInfo.featuresArray ?? [];
+        this.diary = characterInfo.diary ?? "";
 
         if (createNewCharacter) {
             this.insertNewCharacterOnTable();

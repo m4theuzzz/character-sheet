@@ -124,6 +124,32 @@ ul {
     margin-bottom: 1%;
 }
 
+#offcanvas {
+    background-color: rgb(215, 215, 215);
+    width: 34vw;
+    font-size: var(--font-size-1);
+}
+
+#offcanvas button {
+    background-color: rgba(155, 155, 155, 0.4);
+    width: 100%;
+    height: min-content;
+    margin-bottom: 3%;
+}
+
+#offcanvasClose {
+    position: absolute;
+    top: 2vh;
+    left: 26vw;
+    width: 16px !important;
+    height: 16px !important;
+}
+
+#exitButton {
+    position: relative;
+    top: 70vh;
+}
+
 .page-enter-active, .page-leave-active {
     transition: opacity .3s ease;
 }

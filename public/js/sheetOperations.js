@@ -77,12 +77,63 @@ const updateSelectedCharacter = (char) => {
 
 const goToCharacterSheet = () => {
     app.showHomePage = false;
-    setTimeout(() => app.showCharacterSheet = true, DURATION)
+    app.showSpellSheet = false;
+    app.showDetailsSheet = false;
+    app.showDiary = false;
+    setTimeout(() => {
+        app.showCharacterSheet = true;
+        dispatchHabilityScoresAnimation();
+    }, DURATION);
+
 };
 
+const goToSpellSheet = () => {
+    setTimeout(() => {
+        app.shoHomePage = false;
+        app.showCharacterSheet = false;
+        app.showDetailsSheet = false;
+        app.showDiary = false;
+        setTimeout(() => app.showSpellSheet = true, DURATION);
+    }, DURATION);
+    for (let i = 0; i < 9; i++) {
+        setTimeout(() => app.showHabilityScores[i] = false, i * 100);
+    }
+}
+
+const goToDetailsSheet = () => {
+    setTimeout(() => {
+        app.shoHomePage = false;
+        app.showCharacterSheet = false;
+        app.showSpellSheet = false;
+        app.showDiary = false;
+        setTimeout(() => app.showDetailsSheet = true, DURATION);
+    }, DURATION);
+    for (let i = 0; i < 9; i++) {
+        setTimeout(() => app.showHabilityScores[i] = false, i * 100);
+    }
+}
+
+const goToDiary = () => {
+    setTimeout(() => {
+        app.shoHomePage = false;
+        app.showCharacterSheet = false;
+        app.showDetailsSheet = false;
+        app.showSpellSheet = false;
+        setTimeout(() => app.showDiary = true, DURATION);
+    }, DURATION);
+    for (let i = 0; i < 9; i++) {
+        setTimeout(() => app.showHabilityScores[i] = false, i * 100);
+    }
+}
+
 const backToHomePage = () => {
-    app.showCharacterSheet = false;
-    setTimeout(() => app.showHomePage = true, DURATION)
+    setTimeout(() => {
+        app.showSpellSheet = false;
+        app.showCharacterSheet = false;
+        app.showDetailsSheet = false;
+        app.showDiary = false;
+        setTimeout(() => app.showHomePage = true, DURATION);
+    }, DURATION);
     for (let i = 0; i < 9; i++) {
         setTimeout(() => app.showHabilityScores[i] = false, i * 100);
     }
