@@ -13,6 +13,23 @@
     padding: 1% 0 0 1%;
 }
 
+#addSpellButton {
+    position: absolute;
+    width: 8vw;
+    height: 8vw;
+    top: 90vh;
+    left: 90vw;
+    border-radius: 50%;
+    border: 0;
+    background-color: rgba(0, 85, 14, 0.6);
+    padding: 0;
+}
+
+#addSpellButton svg {
+    width: var(--svg-size-4);
+    height: var(--svg-size-4);
+}
+
 .spellList {
     width: 31.36vw;
     margin: 0 1% 1% 0;

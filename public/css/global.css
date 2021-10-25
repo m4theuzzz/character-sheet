@@ -23,6 +23,7 @@
     --svg-size-1: calc(100vw * .014);
     --svg-size-2: calc(100vw * .034);
     --svg-size-3: calc(100vw * .028);
+    --svg-size-4: calc(100vw * .077);
     --skill-spacing: calc((-1 * .8vh) + (3vw - 12px));
 }
 
