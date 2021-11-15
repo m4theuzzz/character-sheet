@@ -559,6 +559,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="castingInfo" class="block">
+
+                </div>
                 <div id="spellsHolder" class="block">
                     <div class="spellList block" v-for="spellLevel of gotSpellsLevel">
                         <p v-if="spellLevel == 0"><b>Truques</b></p>
@@ -1677,7 +1680,7 @@
                             <p class="listedTitle">{{ selectedSpell.name }}</p>
 
                             <button @click="removeCharacterSpell(selectedSpell.spellId)"
-                                class="btn btn-secondary block primaryButton deleter">
+                                class="btn btn-secondary block primaryButton deleter" data-bs-dismiss="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-trash2-fill" viewBox="0 0 16 16">
                                     <path

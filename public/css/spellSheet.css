@@ -9,8 +9,14 @@
     width: 100%;
     top: 7.5vh;
     width: 98vw;
+    height: 92vh;
     left: 1%;
     padding: 1% 0 0 1%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: left;
+    justify-content: flex-start;
+    overflow: scroll;
 }
 
 #addSpellButton {
@@ -59,6 +65,9 @@
     margin: 0 1% 1% 0;
     display: flex;
     flex-flow: column nowrap;
+    max-height: 40vh;
+    overflow-y: scroll;
+    height: min-content;
 }
 
 .spellList p {
