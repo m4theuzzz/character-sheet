@@ -18,7 +18,6 @@ const app = new Vue({
         modal: "",
         itemsRarities: ["unknown", "commom", "uncommon", "rare", "very rare", "legendary", "artifact"],
         itemsTypes: ["item", "armor", "weapon"],
-        editSpell: {},
         allSavedItems: [],
         editItem: {},
         editArrayIndex: -1,
