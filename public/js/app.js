@@ -12,15 +12,23 @@ const app = new Vue({
         showDetailsSheet: false,
         showDiary: false,
         charactersList: [],
+        allSpells: [],
+        spellFilter: "",
         selectedCharacter: {},
         modal: "",
         itemsRarities: ["unknown", "commom", "uncommon", "rare", "very rare", "legendary", "artifact"],
         itemsTypes: ["item", "armor", "weapon"],
-        allSavedSpells: [],
         editSpell: {},
         allSavedItems: [],
         editItem: {},
-        editArrayIndex: -1
+        editArrayIndex: -1,
+        edittedSpell: {},
+        newSpell: {
+            range: "meelee",
+            damages: [],
+            conditions: []
+        },
+        selectedSpell: {}
     },
     computed: {
         proficiencyBonus: {
@@ -64,6 +72,15 @@ const app = new Vue({
 
                         return list;
                     }, []).sort();
+            }
+        },
+        filteredSpells: {
+            get: () => {
+                return app.allSpells.filter(spell => {
+                    if (spell.name.toLowerCase().indexOf(app.spellFilter.toLowerCase()) > -1) {
+                        return spell;
+                    }
+                });
             }
         }
     },
@@ -123,13 +140,17 @@ const app = new Vue({
             var myModal = new bootstrap.Modal(document.getElementById('modal'));
             myModal.hide();
             app.modal = type;
-            build && myModal.show();
             if (item != null) {
-                app.editItem = item;
+                app.editItem = app.edittedSpell = item;
             }
             if (arrayIndex > -1) {
                 app.editArrayIndex = arrayIndex;
             }
+            build && myModal.show();
+        },
+        showSpell: (spell) => {
+            app.selectedSpell = spell;
+            app.handleModalExhibition('Magia');
         },
         deleteCharacter: (id) => {
             fetch(`${API_URL}/characters/${id}`, {
@@ -188,6 +209,22 @@ const app = new Vue({
 
             app.modal = 'Equipamentos';
         },
+        addSpellToCharacter: (spellObject) => {
+            const characterSpells = app.selectedCharacter.spellCasting.spellsList;
+            let canPush = true;
+
+            for (let i = 0; i < characterSpells.length; i++) {
+                canPush = characterSpells[i].spellId != spellObject.spellId;
+
+                if (!canPush) {
+                    break;
+                }
+            }
+
+            canPush ?
+                app.selectedCharacter.spellCasting.spellsList.push(spellObject) :
+                window.alert('Você já possui essa magia');
+        },
         updateItem: (itemObject) => {
             const reqHeader = { "content-type": "application/json" };
             const reqBody = JSON.stringify({ "itemInfo": itemObject });
@@ -200,6 +237,20 @@ const app = new Vue({
 
             app.modal = 'Adicionar Equipamento';
         },
+        removeCharacterSpell: (spellId) => {
+            app.selectedCharacter.spellCasting.spellsList = app.selectedCharacter.spellCasting.spellsList.filter(spell => {
+                if (spell.spellId != spellId) {
+                    return spell;
+                }
+            });
+        },
+        deleteSpellFromDatabase: (spellId) => {
+            fetch(`${API_URL}/spells/${spellId}`, {
+                method: "DELETE"
+            });
+            removeCharacterSpell();
+            updateSpellsList();
+        },
         deleteItemFromDatabase: (itemId) => {
             fetch(`${API_URL}/items/${itemId}`, {
                 method: "DELETE"
@@ -208,6 +259,19 @@ const app = new Vue({
         },
         updateProficiencyArrays: (skill, hability) => {
             alternateSkillProficiencyType(skill, hability);
+        },
+        getAllSpells: () => {
+            fetch(`${API_URL}/spells`, {
+                method: "GET"
+            }).then(res => {
+                if (res.status == 200) {
+                    return res.json();
+                }
+            }).then(json => {
+                app.allSpells = json;
+            }).catch(err => {
+                throw err;
+            });
         },
         getSpellsByLevel: (spellLevel) => {
             return app.selectedCharacter.spellCasting.spellsList.filter((spell) => {
@@ -222,7 +286,7 @@ const app = new Vue({
                 let plural = spell.damages.length == 1 ? false : true;
                 text += `<p class="tooltipText">Dano${plural ? "s" : ""}: `;
                 spell.damages.forEach((damage, index) => {
-                    text += `${damage.numberOfDices}${damage.diceType}[${damage.damageType}]${!plural || spell.damages.length == index + 1 ? ";</p>" : ", "}`
+                    text += `${damage.numberOfDices}${damage.diceType}[${app.translateSpell(damage.damageType)}]${!plural || spell.damages.length == index + 1 ? ";</p>" : ", "}`
                 });
             }
             if (spell.conditions.length > 0) {
@@ -233,6 +297,19 @@ const app = new Vue({
                 });
             }
             return text;
+        },
+        saveSpellToDB: () => {
+            const body = JSON.stringify({ spellInfo: app.edittedSpell });
+            fetch(`${API_URL}/spells`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            }).then(() => {
+                updateSpellsList()
+                app.modal = 'Adicionar Magia';
+            });
         },
         deleteMovement: (index) => {
             app.selectedCharacter.speedArray.splice(index, 1);
@@ -255,6 +332,125 @@ const app = new Vue({
         deleteAction: (index, type) => {
             app.selectedCharacter.actions[type].splice(index, 1);
         },
+        listDamage: () => {
+            const damagesTypes = app.newSpell.damages.filter(dmg => dmg.type);
+
+            const newDamage = {
+                id: new Date().getTime(),
+                numberOfDices: document.getElementById("newDmgDiceNumber").value,
+                diceType: document.getElementById("newDmgDiceType").value,
+                damageType: document.getElementById("newDmgType").value
+            };
+
+            if (damagesTypes.indexOf(newDamage.damageType) > -1) {
+                return window.alert("Você já possui danos deste tipo nesta magia");
+            }
+
+            app.newSpell.damages.push(newDamage);
+        },
+        removeDamage: (id) => {
+            let i = 0;
+            let toRemoveIndexes = app.newSpell.damages.reduce((indexes, damage) => {
+                if (damage.id == id) {
+                    indexes.push(i);
+                }
+                i++;
+                return indexes;
+            }, []).sort();
+
+            for (let i = toRemoveIndexes.length - 1; i >= 0; i--) {
+                app.newSpell.damages.splice(toRemoveIndexes[i], 1);
+            }
+        },
+
+        removeDamageFromEdittedSpell: (id) => {
+            let i = 0;
+            let toRemoveIndexes = app.edittedSpell.damages.reduce((indexes, damage) => {
+                if (damage.id == id) {
+                    indexes.push(i);
+                }
+                i++;
+                return indexes;
+            }, []).sort();
+
+            for (let i = toRemoveIndexes.length - 1; i >= 0; i--) {
+                app.edittedSpell.damages.splice(toRemoveIndexes[i], 1);
+            }
+        },
+        listDamageToEdittedSpell: () => {
+            const damagesTypes = app.edittedSpell.damages.filter(dmg => dmg.type);
+
+            const newDamage = {
+                id: new Date().getTime(),
+                numberOfDices: document.getElementById("newDmgDiceNumber").value,
+                diceType: document.getElementById("newDmgDiceType").value,
+                damageType: document.getElementById("newDmgType").value
+            };
+
+            if (damagesTypes.indexOf(newDamage.damageType) > -1) {
+                return window.alert("Você já possui danos deste tipo nesta magia");
+            }
+
+            app.edittedSpell.damages.push(newDamage);
+        },
+        removeConditionFromEdittedSpell: (id) => {
+            let i = 0;
+            let toRemoveIndexes = app.edittedSpell.conditions.reduce((indexes, damage) => {
+                if (damage.id == id) {
+                    indexes.push(i);
+                }
+                i++;
+                return indexes;
+            }, []).sort();
+
+            for (let i = toRemoveIndexes.length - 1; i >= 0; i--) {
+                app.edittedSpell.conditions.splice(toRemoveIndexes[i], 1);
+            }
+        },
+        listConditionToEdittedSpell: () => {
+            const conditionNames = app.edittedSpell.conditions.filter(condition => condition.name);
+
+            const newCondition = {
+                id: new Date().getTime(),
+                name: document.getElementById("newConditionName").value,
+                duration: document.getElementById("newConditionDuration").value,
+            };
+
+            if (conditionNames.indexOf(newCondition.name) > -1) {
+                return window.alert("Você já possui esta condição nesta magia");
+            }
+
+            app.edittedSpell.conditions.push(newCondition)
+        },
+        listCondition: () => {
+            const conditionNames = app.newSpell.conditions.filter(condition => condition.name);
+
+            const newCondition = {
+                id: new Date().getTime(),
+                name: document.getElementById("newConditionName").value,
+                duration: document.getElementById("newConditionDuration").value,
+            };
+
+            if (conditionNames.indexOf(newCondition.name) > -1) {
+                return window.alert("Você já possui esta condição nesta magia");
+            }
+
+            app.newSpell.conditions.push(newCondition)
+        },
+        removeCondition: (id) => {
+            let i = 0;
+            let toRemoveIndexes = app.newSpell.conditions.reduce((indexes, condition) => {
+                if (condition.id == id) {
+                    indexes.push(i);
+                }
+                i++;
+                return indexes;
+            }, []).sort();
+
+            for (let i = toRemoveIndexes.length - 1; i >= 0; i--) {
+                app.newSpell.conditions.splice(toRemoveIndexes[i], 1);
+            }
+        },
         translate: (skill) => {
             let translation = "";
 
@@ -276,6 +472,30 @@ const app = new Vue({
             skill == "intimidation" ? translation = "Intimidação" : "";
             skill == "performance" ? translation = "Interpretação" : "";
             skill == "persuasion" ? translation = "Persuasão" : "";
+
+            return translation;
+        },
+        translateSpell: (string) => {
+            let translation = "";
+
+            string == "acid" ? translation = "Ácido" : "";
+            string == "lightning" ? translation = "Elétrico" : "";
+            string == "energy" ? translation = "Energia" : "";
+            string == "physical" ? translation = "Físico" : "";
+            string == "fire" ? translation = "Fogo" : "";
+            string == "cold" ? translation = "Frio" : "";
+            string == "magical" ? translation = "Mágico" : "";
+            string == "necrotic" ? translation = "Necrótico" : "";
+            string == "psychic" ? translation = "Psíquico" : "";
+            string == "radiant" ? translation = "Radiante" : "";
+            string == "acid" ? translation = "Ácido" : "";
+            string == "thunder" ? translation = "Veneno" : "";
+            string == "action" ? translation = "Ação" : "";
+            string == "reaction" ? translation = "Reação" : "";
+            string == "bonusAction" ? translation = "Ação Bônus" : "";
+            string == "minute" ? translation = "Minuto(s)" : "";
+            string == "hour" ? translation = "Hora(s)" : "";
+            string == "day" ? translation = "Dia(s)" : "";
 
             return translation;
         },

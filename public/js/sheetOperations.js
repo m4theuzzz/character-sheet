@@ -64,8 +64,30 @@ const updateCharacterList = () => {
     fetch(`${API_URL}/characters`).then(res => {
         return res.status == 200 ? res.json() : {};
     }).then(json => {
-        app.charactersList = [];
-        json["characters"].forEach(character => app.charactersList.push(character));
+        app.charactersList = json["characters"];
+    }).catch(err => {
+        throw err;
+    });
+}
+
+const updateSpellsList = () => {
+    fetch(`${API_URL}/spells`, {
+        method: "GET"
+    }).then(res => {
+        if (res.status == 200) {
+            return res.json();
+        }
+    }).then(json => {
+        app.allSpells = json.spells.sort((a, b) => {
+            if (a.name > b.name) {
+                return 1;
+            }
+            if (a.name < b.name) {
+                return -1;
+            }
+
+            return 0;
+        });
     }).catch(err => {
         throw err;
     });
@@ -220,6 +242,85 @@ const addNewFeature = () => {
     app.modal = 'Habilidades';
 }
 
+const addSpell = (spell) => {
+    const alreadyHave = app.selectedCharacter.spellCasting.spellsList.filter(spell => spell.spellId);
+
+    if (alreadyHave.indexOf(spell.id) > -1) {
+        window.alert("Você já possui essa magia");
+        return false;
+    }
+
+    app.selectedCharacter.spellCasting.spellsList.push(spell);
+    return true;
+};
+
+const clearSpellForm = () => {
+    document.getElementById("newSpellName").value = "";
+    document.getElementById("newSpellSchool").value = "";
+    document.getElementById("newSpellLevel").value = "";
+    document.getElementById("newSpellClasses").value = "";
+    document.getElementById("newSpellCastTimeCount").value = "";
+    document.getElementById("newSpellCastTimeType").value = "";
+    document.getElementById("newSpellIsRitual").checked = false;
+    document.getElementById("newSpellRange").value = "";
+    document.getElementById("newSpellDuration").value = "";
+    document.getElementById("newSpellVerbalComponent").checked = false;
+    document.getElementById("newSpellSomaticComponent").checked = false;
+    document.getElementById("newSpellMaterialComponent").value = "";
+    document.getElementById("newSpellDescription").value = "";
+    document.getElementById("newSpellOrigin").value = "";
+};
+
+const addNewSpell = () => {
+    const newSpell = {
+        name: document.getElementById("newSpellName").value,
+        school: document.getElementById("newSpellSchool").value,
+        level: document.getElementById("newSpellLevel").value,
+        classes: document.getElementById("newSpellClasses").value,
+        casting: {
+            "time": document.getElementById("newSpellCastTimeCount").value,
+            "type": document.getElementById("newSpellCastTimeType").value,
+            "ritual": document.getElementById("newSpellIsRitual").checked
+        },
+        range: {
+            "type": app.newSpell.range,
+            "distance": app.newSpell.range == 'ranged' ? document.getElementById("newSpellRange").value : null
+        },
+        damages: app.newSpell.damages,
+        conditions: app.newSpell.conditions,
+        duration: document.getElementById("newSpellDuration").value,
+        components: {
+            "verbal": document.getElementById("newSpellVerbalComponent").checked,
+            "somatic": document.getElementById("newSpellSomaticComponent").checked,
+            "material": document.getElementById("newSpellMaterialComponent").value
+        },
+        description: document.getElementById("newSpellDescription").value,
+        origin: document.getElementById("newSpellOrigin").value,
+    };
+
+    const obj = JSON.stringify({ spellInfo: newSpell });
+    const myheaders = {
+        "content-type": "application/json"
+    }
+
+    fetch(`${API_URL}/spells`, {
+        method: 'POST',
+        headers: myheaders,
+        body: obj
+    }).then(res => {
+        if (res.status == 200) {
+            return res.json();
+        }
+    }).then(json => {
+        addSpell({ ...json, ...newSpell });
+        clearSpellForm();
+        updateSpellsList();
+        app.modal = 'Adicionar Magia';
+    }).catch(err => {
+        throw err;
+    });
+};
+
 const addNewAction = (type, backTo) => {
     const hitType = document.getElementById('actionHitType').value;
     const hitOrDC = document.getElementById('actionHitDC').value;
@@ -245,3 +346,4 @@ const updateSaves = (type) => {
 }
 
 updateCharacterList();
+updateSpellsList();

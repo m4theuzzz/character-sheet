@@ -12,26 +12,15 @@ const DURATION_TIME_COUNT = ["round", "minute", "hour", "day"];
 const RANGE_TYPES = ["self", "touch", "ranged", "sight", "unlimited"];
 
 exports.getAllSpellList = (req, res) => {
-    let spellsList = [];
-
     db.fetchAllRowsFromTable(TABLE_NAME, spells => {
-        if (spells.length == 0) {
-            return res.status(200).send({ "spells": spellsList });
-        }
-
-        spellsList = spells.reduce((acc, cur) => {
-            acc.push({ "spellId": cur.spellId, "name": cur.name });
-            return acc;
-        }, []);
+        return res.status(200).send({ "spells": spells });
     });
-
-    return res.status(200).send({ "spells": spellsList });
 };
 
 exports.createNewSpell = (req, res) => {
-    let newSpell = req.body.spellInfo;
+    const newSpell = req.body.spellInfo;
     const spell = new Spell(0, newSpell);
-    return res.status(200).send({ "response": "Magia criada com sucesso." });
+    return res.status(200).send({ "spellId": spell.spellId });
 };
 
 exports.getConstants = (req, res) => {

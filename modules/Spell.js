@@ -25,13 +25,13 @@ class Spell {
         this.range = spellInfo.range ?? { "type": "ranged", "distance": 9 };
         this.damages = spellInfo.damages ?? []; //{ "numberOfDices": 1, "diceType": "d6", "damageType": "fogo" }
         this.conditions = spellInfo.conditions ?? []; //{ "name": "", "duration": "" }
-        this.duration = spellInfo.duration ?? { "type": "concentração", "value": 1, "count": "minuto" };
-        this.components = spellInfo.components ?? { "verbal": false, "somatic": false, "material": [] };
+        this.duration = spellInfo.duration ?? "";
+        this.components = spellInfo.components ?? { "verbal": false, "somatic": false, "material": "" };
         this.description = spellInfo.description ?? "";
         this.origin = spellInfo.origin ?? "Player's Handbook";
 
         if (newSpellInfo != null) {
-            insertNewSpellInDatabase();
+            this.insertNewSpellInDatabase();
         }
     }
 
