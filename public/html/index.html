@@ -676,8 +676,8 @@
                         Personagem</button>
                     <button v-if="!showSpellSheet" onclick="goToSpellSheet()" data-bs-dismiss="offcanvas"
                         class="btn btn-secondary primaryButton block">Ficha de Magia</button>
-                    <button v-if="!showDetailsSheet" onclick="goToDetailsSheet()" data-bs-dismiss="offcanvas"
-                        class="btn btn-secondary primaryButton block">Características</button>
+                    <!-- <button v-if="!showDetailsSheet" onclick="goToDetailsSheet()" data-bs-dismiss="offcanvas"
+                        class="btn btn-secondary primaryButton block">Características</button> -->
                     <button v-if="!showDiary" onclick="goToDiary()" class="btn btn-secondary primaryButton block"
                         data-bs-dismiss="offcanvas">Diário</button>
                 </div>
@@ -1729,7 +1729,7 @@
                                 cancelar
                             </button>
                             <button type="button" class="btn btn-secondary block primaryButton float-end"
-                                @click="deleteCharacter(editItem.characterId)">
+                                @click="deleteCharacter(editItem.characterId)" data-bs-dismiss="modal">
                                 Matar
                             </button>
                         </div>

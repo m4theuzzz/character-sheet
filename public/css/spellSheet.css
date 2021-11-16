@@ -73,3 +73,8 @@
 .spellList p {
     font-size: var(--font-size-1);
 }
+
+.listedSpell {
+    cursor: pointer;
+    margin-bottom: 1%;
+}

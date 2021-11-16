@@ -292,7 +292,7 @@ const app = new Vue({
                 let plural = spell.conditions.length == 1 ? false : true;
                 text += `<p class="tooltipText">Condiç${plural ? "ões" : "ão"}: `;
                 spell.conditions.forEach((condition, index) => {
-                    text += `${condition}${!plural || spell.conditions.length == index + 1 ? ";</p>" : ", "}`;
+                    text += `${condition.name}${!plural || spell.conditions.length == (index + 1) ? ";</p>" : ", "}`;
                 });
             }
             return text;
