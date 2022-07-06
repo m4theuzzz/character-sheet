@@ -3,14 +3,13 @@
 const Database = require('../../modules/Database');
 const Item = require('../../modules/Item');
 
-const db = new Database('db');
-
 const TABLE_NAME = 'items';
 
 const RARITIES = ["unknown", "commom", "uncommon", "rare", "very rare", "legendary", "artifact"];
 const ITEM_TYPES = ["item", "armor", "weapon"];
 
 exports.getAllItemsList = (req, res) => {
+    const db = new Database('db');
     let itemsList = [];
 
     db.fetchAllRowsFromTable(TABLE_NAME, items => {
@@ -41,6 +40,7 @@ exports.getItemById = (req, res) => {
 };
 
 exports.updateItem = (req, res) => {
+    const db = new Database('db');
     let item = req.body.itemInfo;
 
     let changeMap = {
@@ -52,6 +52,7 @@ exports.updateItem = (req, res) => {
 };
 
 exports.deleteItem = (req, res) => {
+    const db = new Database('db');
     let itemId = parseInt(req.params.id);
     let filter = { "itemId": itemId };
 

@@ -3,11 +3,10 @@
 const Database = require('../../modules/Database');
 const Character = require('../../modules/Character');
 
-const db = new Database('db');
-
 const TABLE_NAME = 'characters';
 
 exports.getCharactersList = (req, res) => {
+    const db = new Database('db');
     let charactersList = [];
 
     db.fetchAllRowsFromTable(TABLE_NAME, data => {
@@ -31,6 +30,7 @@ exports.createNewCharacter = (req, res) => {
 }
 
 exports.deleteCharacter = (req, res) => {
+    const db = new Database('db');
     let filter = { "characterId": parseInt(req.params.id) };
     return res.status(200).send(db.deleteRowInTable(TABLE_NAME, filter));
 }

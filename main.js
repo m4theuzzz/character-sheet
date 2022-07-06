@@ -1,5 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const express = require('express');
+const api = express();
+api.use(express.json());
 
 const PORT = 37456;
 
@@ -26,17 +28,13 @@ const startAPI = () => {
     const characterSheetRoute = require('./api/routes/CharacterSheetRoute');
     const itemsRoute = require('./api/routes/ItemsRoute');
     const spellsRoute = require('./api/routes/SpellsRoute');
-    const usersRoute = require('./api/routes/UsersRoute')
+    const usersRoute = require('./api/routes/UsersRoute');
 
-    const api = express();
-
-    api.use(express.json())
-
+    usersRoute(api);
     charactersRoute(api);
     characterSheetRoute(api);
     itemsRoute(api);
     spellsRoute(api);
-    usersRoute(api);
 
     api.listen(PORT);
 }

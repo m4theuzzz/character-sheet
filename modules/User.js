@@ -1,6 +1,6 @@
 const Database = require('./Database');
 
-const db = new Database('db');
+const db = new Database('db', true);
 
 const TABLE_NAME = "users"
 

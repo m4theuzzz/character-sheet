@@ -1,10 +1,10 @@
 const Database = require('./Database');
-const db = new Database('db');
 
 const TABLE_NAME = 'characters';
 
 class Character {
     constructor(characterId = 0, characterName = "", createNewCharacter = false) {
+        const db = new Database('db');
         let characterInfo = {};
 
         if (!createNewCharacter) {
@@ -71,6 +71,7 @@ class Character {
     }
 
     insertNewCharacterOnTable() {
+        const db = new Database('db');
         let character = { ...this };
 
         character.characterId = db.getNextRowId(TABLE_NAME);
@@ -175,6 +176,7 @@ class Character {
     }
 
     saveCharacterInDatabase() {
+        const db = new Database('db');
         let character = { ...this };
         let changeMap = {
             "where": { "characterId": this.characterId },

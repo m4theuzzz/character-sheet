@@ -1,11 +1,10 @@
 const Database = require('./Database');
 
-const db = new Database('db');
-
 const TABLE_NAME = "items";
 
 class Items {
     constructor(itemId, newItemInfo = null) {
+        const db = new Database('db');
         let itemInfo = {};
 
         if (newItemInfo == null) {
@@ -31,6 +30,7 @@ class Items {
     }
 
     insertNewItemInDatabase() {
+        const db = new Database('db');
         this.itemId = db.getNextRowId(TABLE_NAME);
         this.quantity = 1;
 
@@ -68,6 +68,7 @@ class Items {
     }
 
     saveItemInDatabase() {
+        const db = new Database('db');
         let item = { ...this };
         let changeMap = {
             "where": { "itemId": this.itemId },

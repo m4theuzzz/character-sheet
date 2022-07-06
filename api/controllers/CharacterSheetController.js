@@ -3,8 +3,6 @@
 const Database = require('../../modules/Database');
 const Sheet = require('../../modules/Sheet');
 
-const db = new Database('db');
-
 const TABLE_NAME = 'characters';
 
 exports.startCharacterSheet = (req, res) => {
@@ -14,6 +12,7 @@ exports.startCharacterSheet = (req, res) => {
 }
 
 exports.updateCharacterSheet = (req, res) => {
+    const db = new Database('db');
     let changeMap = {
         "where": { "characterId": parseInt(req.body.character.characterId) },
         "set": req.body.character

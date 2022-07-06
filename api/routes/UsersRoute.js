@@ -5,4 +5,7 @@ module.exports = function (app) {
 
     app.route('/user')
         .get(userController.getUser);
+
+    app.route('/user/logout')
+        .get(userController.logOut);
 }

@@ -3,8 +3,6 @@
 const Database = require('../../modules/Database');
 const Spell = require('../../modules/Spell');
 
-const db = new Database('db');
-
 const TABLE_NAME = 'spells';
 const CASTING_TYPES = ["action", "bonus action", "hour", "minute", "reaction", "no action"];
 const DURATION_TYPES = ["concentration", "instantaneous", "special", "time", "until dispelled", "until dispelled or triggered"];
@@ -12,6 +10,7 @@ const DURATION_TIME_COUNT = ["round", "minute", "hour", "day"];
 const RANGE_TYPES = ["self", "touch", "ranged", "sight", "unlimited"];
 
 exports.getAllSpellList = (req, res) => {
+    const db = new Database('db');
     db.fetchAllRowsFromTable(TABLE_NAME, spells => {
         return res.status(200).send({ "spells": spells });
     });
@@ -34,6 +33,7 @@ exports.getConstants = (req, res) => {
 };
 
 exports.getSpellById = (req, res) => {
+    const db = new Database('db');
     let spell;
     const id = parseInt(req.params.id);
     const filter = { "id": id };
@@ -46,6 +46,7 @@ exports.getSpellById = (req, res) => {
 };
 
 exports.updateSpell = (req, res) => {
+    const db = new Database('db');
     let spell = req.body.spellInfo;
 
     let changeMap = {
@@ -57,6 +58,7 @@ exports.updateSpell = (req, res) => {
 };
 
 exports.deleteSpell = (req, res) => {
+    const db = new Database('db');
     let id = parseInt(req.params.id);
     let filter = { "id": id };
 

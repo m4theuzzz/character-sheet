@@ -1,11 +1,18 @@
+require('dotenv').config();
+
 const db = require('electron-db');
 const path = require('path');
 const fs = require('fs');
 
 class Database {
-    constructor(databaseDirectory) {
-        this.pathToDatabases = path.join(path.join(path.join(path.join(__dirname, '../'), '../'), databaseDirectory), '');
-        this.requiredTables = ['characters', 'items', 'spells', 'users'];
+    constructor(databaseDirectory, isUser = false) {
+        if (isUser) {
+            this.pathToDatabases = path.join(path.join(path.join(path.join(__dirname, '../'), '../'), databaseDirectory), '');
+            this.requiredTables = ['users'];
+        } else {
+            this.pathToDatabases = path.join(path.join(path.join(path.join(path.join(__dirname, '../'), '../'), databaseDirectory), process.env.USER_ID), '');
+            this.requiredTables = ['characters', 'items', 'spells'];
+        }
 
         this.certificateThatPathToDatabasesExists();
     }

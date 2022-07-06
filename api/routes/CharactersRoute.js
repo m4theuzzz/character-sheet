@@ -7,7 +7,6 @@ module.exports = function (app) {
         .get(charactersController.getCharactersList)
         .post(charactersController.createNewCharacter);
 
-
     app.route('/characters/:id')
         .delete(charactersController.deleteCharacter);
 };

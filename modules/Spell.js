@@ -1,11 +1,10 @@
 const Database = require('./Database');
 
-const db = new Database('db');
-
 const TABLE_NAME = 'spells';
 
 class Spell {
     constructor(id, newSpellInfo = null) {
+        const db = new Database('db');
         let spellInfo = {};
         if (newSpellInfo == null) {
             let filter = { "id": id };
@@ -36,6 +35,7 @@ class Spell {
     }
 
     insertNewSpellInDatabase() {
+        const db = new Database('db');
         let spell = { ...this };
 
         spell.spellId = db.getNextRowId(TABLE_NAME) ?? 1;
@@ -88,6 +88,7 @@ class Spell {
     }
 
     saveSpellInDatabase() {
+        const db = new Database('db');
         let spell = { ...this };
         let changeMap = {
             "where": { "id": this.id },
