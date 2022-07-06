@@ -4,8 +4,8 @@
 }
 
 #diaryPage {
-    width: 98vw;
-    height: 91vh;
+    width: calc(0.98 * var(--width));
+    height: calc(0.91 * var(--height));
     display: flex;
     position: absolute;
     top: 7.4%;

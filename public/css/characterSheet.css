@@ -227,8 +227,8 @@
     display: flex;
     padding: 0;
     border: 0px;
-    width: calc(96vw * 0.04);
-    height: calc((100vh - 30px) * 0.07 * 0.3);
+    width: calc((0.95 * var(--height)) * 0.04);
+    height: calc((var(--height) - 30px) * 0.07 * 0.3);
 }
 
 #backToHomePage svg {
@@ -296,7 +296,7 @@
 
 .hability {
     margin-top: 1%;
-    height: calc((100vh - 30px) * 0.744 * 0.142);
+    height: calc((var(--height) - 30px) * 0.744 * 0.142);
 }
 
 .habilityScore {
@@ -318,7 +318,7 @@
     margin-left: 2%;
     width: 66%;
     height: min-content;
-    max-height: calc((100vh - 30px) * 0.744 * 0.099);
+    max-height: calc((var(--height) - 30px) * 0.744 * 0.099);
 }
 
 .skills svg {
@@ -383,7 +383,7 @@
 }
 
 .formDescription {
-    height: 25vh !important;
+    height: calc(0.25 * var(--height)) !important;
 }
 
 .listedFeat .featManage * {

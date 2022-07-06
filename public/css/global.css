@@ -1,10 +1,12 @@
 :root {
-    --font-size-1: calc(100vw * .026);
-    --font-size-2: calc(100vw * .012);
-    --font-size-3: calc(100vw * .05);
-    --font-size-4: calc(100vw * .04);
-    --font-size-5: calc(100vw * .02);
-    --font-size-6: calc(100vw * .018);
+    --height: min(100vh, 143vw);
+    --width: calc(var(--height)*0.7);
+    --font-size-1: calc(var(--width) * .026);
+    --font-size-2: calc(var(--width) * .012);
+    --font-size-3: calc(var(--width) * .05);
+    --font-size-4: calc(var(--width) * .04);
+    --font-size-5: calc(var(--width) * .02);
+    --font-size-6: calc(var(--width) * .018);
     /* --background-color-sorcerer: rgba(255, 0, 0, 0.1);
     --background-color-wizard: rgba(0, 0, 255, 0.1);
     --background-color-warlock: rgba(111, 73, 172, 0.1);
@@ -20,11 +22,11 @@
     --background-color-barbarian: rgba(195, 119, 95, 0.1);
     --background-color-artificer: rgba(142, 122, 79, 0.1); */
     --background-color-1: rgba(155, 155, 155, 0.1);
-    --svg-size-1: calc(100vw * .014);
-    --svg-size-2: calc(100vw * .034);
-    --svg-size-3: calc(100vw * .028);
-    --svg-size-4: calc(100vw * .077);
-    --skill-spacing: calc((-1 * .8vh) + (3vw - 12px));
+    --svg-size-1: calc(var(--width) * .014);
+    --svg-size-2: calc(var(--width) * .034);
+    --svg-size-3: calc(var(--width) * .028);
+    --svg-size-4: calc(var(--width) * .077);
+    --skill-spacing: calc((-1 * (.008 * var(--height))) + ((0.03 * var(--width)) - 12px));
 }
 
 ::-webkit-scrollbar {
@@ -40,6 +42,9 @@ body {
     display: flex;
     background-color: rgba(121, 121, 121, 0.1);
     font-size: var(--font-size-1);
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 button {
@@ -53,7 +58,7 @@ select {
     border-radius: 6px;
     text-align: center;
     border: 0;
-    height: 4.2vh;
+    height: calc(0.042 * var(--height));
 }
 
 textarea {
@@ -70,11 +75,11 @@ ul {
 }
 
 .appPage {
-    position: absolute;
+    position: relative;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
+    width: var(--width);
+    height: var(--height);
     overflow: hidden;
 }
 
@@ -114,8 +119,8 @@ ul {
 }
 
 #app {
-    height: 100vh;
-    width: 70vh;
+    height: var(--height);
+    width: var(--width);
 }
 
 #modalTitle {
@@ -135,7 +140,7 @@ ul {
 
 #offcanvas {
     background-color: rgb(215, 215, 215);
-    width: 34vw;
+    width: calc(0.34 * var(--width));
     font-size: var(--font-size-1);
 }
 
@@ -148,15 +153,15 @@ ul {
 
 #offcanvasClose {
     position: absolute;
-    top: 2vh;
-    left: 26vw;
+    top: calc(0.02 * var(--height));
+    left: calc(0.26 * var(--width));
     width: 16px !important;
     height: 16px !important;
 }
 
 #exitButton {
     position: relative;
-    top: 70vh;
+    top: calc(0.7 * var(--height));
 }
 
 .page-enter-active,

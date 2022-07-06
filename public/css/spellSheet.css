@@ -7,9 +7,9 @@
 #spellsHolder {
     position: absolute;
     width: 100%;
-    top: 7.5vh;
-    width: 98%;
-    height: 92vh;
+    top: calc(0.075 * var(--height));
+    width: calc(0.98 * var(--width));
+    height: calc(0.92 * var(--height));
     left: 1%;
     padding: 1% 0 0 1%;
     display: flex;
@@ -21,10 +21,10 @@
 
 #addSpellButton {
     position: absolute;
-    width: 8vw;
-    height: 8vw;
-    top: 90vh;
-    left: 90vw;
+    width: calc(0.08 * var(--width));
+    height: calc(0.08 * var(--width));
+    top: calc(0.9 * var(--height));
+    left: calc(0.9 * var(--width));
     border-radius: 50%;
     border: 0;
     background-color: rgba(0, 85, 14, 0.6);
@@ -38,7 +38,7 @@
 
 #floatingInput {
     text-align: left;
-    padding: 2vh 6%;
+    padding: calc(0.02 * var(--height)) 6%;
     height: 100%;
 }
 
@@ -46,7 +46,7 @@
 .form-control {
     position: sticky;
     top: 0;
-    max-height: 7vh;
+    max-height: calc(0.07 * var(--height));
     outline: 0;
 }
 
@@ -62,11 +62,11 @@
 }
 
 .spellList {
-    width: 31.36vw;
+    width: calc(0.3136 * var(--width));
     margin: 0 1% 1% 0;
     display: flex;
     flex-flow: column nowrap;
-    max-height: 40vh;
+    max-height: calc(0.4 * var(--height));
     overflow-y: scroll;
     height: min-content;
 }
