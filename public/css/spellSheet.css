@@ -8,7 +8,7 @@
     position: absolute;
     width: 100%;
     top: 7.5vh;
-    width: 98vw;
+    width: 98%;
     height: 92vh;
     left: 1%;
     padding: 1% 0 0 1%;
@@ -42,7 +42,8 @@
     height: 100%;
 }
 
-.form-floating, .form-control {
+.form-floating,
+.form-control {
     position: sticky;
     top: 0;
     max-height: 7vh;

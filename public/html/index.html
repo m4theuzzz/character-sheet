@@ -1315,7 +1315,7 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="deleteSpellFromDatabase(spell.spellId)"
+                                    <button @click="deleteSpellFromDatabase(spell.id)"
                                         class="btn btn-secondary block primaryButton deleter">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             fill="currentColor" class="bi bi-trash2-fill" viewBox="0 0 16 16">
@@ -1679,7 +1679,7 @@
                         <div class="sequencial">
                             <p class="listedTitle">{{ selectedSpell.name }}</p>
 
-                            <button @click="removeCharacterSpell(selectedSpell.spellId)"
+                            <button @click="removeCharacterSpell(selectedSpell.id)"
                                 class="btn btn-secondary block primaryButton deleter" data-bs-dismiss="modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-trash2-fill" viewBox="0 0 16 16">

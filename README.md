@@ -18,7 +18,7 @@ The application is made with `Node.js`, being deployable thanks to `Electron`, t
 
 **Build**
 
-1. $ npm run build
+1. $ npm run dist
 
 # API Routing
 

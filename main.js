@@ -16,8 +16,6 @@ const createWindow = () => {
         }
     });
 
-    win.setAspectRatio(7 / 10);
-
     win.loadFile('./public/html/index.html');
 
     // win.webContents.openDevTools();

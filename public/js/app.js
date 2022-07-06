@@ -213,7 +213,7 @@ const app = new Vue({
             let canPush = true;
 
             for (let i = 0; i < characterSpells.length; i++) {
-                canPush = characterSpells[i].spellId != spellObject.spellId;
+                canPush = characterSpells[i].id != spellObject.id;
 
                 if (!canPush) {
                     break;
@@ -236,15 +236,15 @@ const app = new Vue({
 
             app.modal = 'Adicionar Equipamento';
         },
-        removeCharacterSpell: (spellId) => {
+        removeCharacterSpell: (id) => {
             app.selectedCharacter.spellCasting.spellsList = app.selectedCharacter.spellCasting.spellsList.filter(spell => {
-                if (spell.spellId != spellId) {
+                if (spell.id != id) {
                     return spell;
                 }
             });
         },
-        deleteSpellFromDatabase: (spellId) => {
-            fetch(`${API_URL}/spells/${spellId}`, {
+        deleteSpellFromDatabase: (id) => {
+            fetch(`${API_URL}/spells/${id}`, {
                 method: "DELETE"
             });
             removeCharacterSpell();

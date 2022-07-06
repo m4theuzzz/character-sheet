@@ -20,7 +20,7 @@ exports.getAllSpellList = (req, res) => {
 exports.createNewSpell = (req, res) => {
     const newSpell = req.body.spellInfo;
     const spell = new Spell(0, newSpell);
-    return res.status(200).send({ "spellId": spell.spellId });
+    return res.status(200).send({ "id": spell.id });
 };
 
 exports.getConstants = (req, res) => {
@@ -35,8 +35,8 @@ exports.getConstants = (req, res) => {
 
 exports.getSpellById = (req, res) => {
     let spell;
-    const spellId = parseInt(req.params.id);
-    const filter = { "spellId": spellId };
+    const id = parseInt(req.params.id);
+    const filter = { "id": id };
 
     db.fetchRowsWithFilter(TABLE_NAME, filter, spells => {
         spell = spells[0];
@@ -49,7 +49,7 @@ exports.updateSpell = (req, res) => {
     let spell = req.body.spellInfo;
 
     let changeMap = {
-        "where": { "spellId": spell.spellId },
+        "where": { "id": spell.id },
         "set": spell
     };
 
@@ -57,8 +57,8 @@ exports.updateSpell = (req, res) => {
 };
 
 exports.deleteSpell = (req, res) => {
-    let spellId = parseInt(req.params.id);
-    let filter = { "spellId": spellId };
+    let id = parseInt(req.params.id);
+    let filter = { "id": id };
 
     return res.status(200).send(db.deleteRowInTable(TABLE_NAME, filter));
 };

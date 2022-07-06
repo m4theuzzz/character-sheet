@@ -38,7 +38,7 @@ class Spell {
     insertNewSpellInDatabase() {
         let spell = { ...this };
 
-        spell.spellId = db.getNextRowId(TABLE_NAME);
+        spell.spellId = db.getNextRowId(TABLE_NAME) ?? 1;
 
         return db.insertIntoTable(TABLE_NAME, spell);
     }
@@ -90,7 +90,7 @@ class Spell {
     saveSpellInDatabase() {
         let spell = { ...this };
         let changeMap = {
-            "where": { "spellId": this.spellId },
+            "where": { "id": this.id },
             "set": spell
         };
         db.updateRowInTable(TABLE_NAME, changeMap);

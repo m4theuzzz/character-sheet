@@ -243,7 +243,7 @@ const addNewFeature = () => {
 }
 
 const addSpell = (spell) => {
-    const alreadyHave = app.selectedCharacter.spellCasting.spellsList.filter(spell => spell.spellId);
+    const alreadyHave = app.selectedCharacter.spellCasting.spellsList.filter(listedSpell => listedSpell.id == spell.id);
 
     if (alreadyHave.indexOf(spell.id) > -1) {
         window.alert("Você já possui essa magia");
