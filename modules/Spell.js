@@ -5,10 +5,10 @@ const db = new Database('db');
 const TABLE_NAME = 'spells';
 
 class Spell {
-    constructor(spellId, newSpellInfo = null) {
+    constructor(id, newSpellInfo = null) {
         let spellInfo = {};
         if (newSpellInfo == null) {
-            let filter = { "spellId": spellId };
+            let filter = { "id": id };
             db.fetchRowsWithFilter(TABLE_NAME, filter, spell => {
                 return spellInfo = spell[0];
             });

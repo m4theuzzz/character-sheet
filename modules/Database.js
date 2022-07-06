@@ -5,7 +5,7 @@ const fs = require('fs');
 class Database {
     constructor(databaseDirectory) {
         this.pathToDatabases = path.join(path.join(path.join(path.join(__dirname, '../'), '../'), databaseDirectory), '');
-        this.requiredTables = ['characters', 'items', 'spells'];
+        this.requiredTables = ['characters', 'items', 'spells', 'users'];
 
         this.certificateThatPathToDatabasesExists();
     }

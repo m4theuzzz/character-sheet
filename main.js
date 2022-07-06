@@ -26,6 +26,7 @@ const startAPI = () => {
     const characterSheetRoute = require('./api/routes/CharacterSheetRoute');
     const itemsRoute = require('./api/routes/ItemsRoute');
     const spellsRoute = require('./api/routes/SpellsRoute');
+    const usersRoute = require('./api/routes/UsersRoute')
 
     const api = express();
 
@@ -35,6 +36,7 @@ const startAPI = () => {
     characterSheetRoute(api);
     itemsRoute(api);
     spellsRoute(api);
+    usersRoute(api);
 
     api.listen(PORT);
 }
