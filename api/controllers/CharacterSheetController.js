@@ -6,12 +6,18 @@ const Sheet = require('../../modules/Sheet');
 const TABLE_NAME = 'characters';
 
 exports.startCharacterSheet = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     let sheet = new Sheet(parseInt(req.params.id));
     let response = { "character": sheet.getCharacterObject() };
     res.status(200).send(response);
 }
 
 exports.updateCharacterSheet = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const db = new Database('db');
     let changeMap = {
         "where": { "characterId": parseInt(req.body.character.characterId) },

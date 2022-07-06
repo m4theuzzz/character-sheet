@@ -1,5 +1,9 @@
 const updateAllSavedItems = async () => {
-    fetch(`${API_URL}/items`).then(res => res.json()).then(json => {
+    fetch(`${API_URL}/items`, {
+        headers: {
+            "user": app.userId
+        }
+    }).then(res => res.json()).then(json => {
         app.allSavedItems = json.items;
     }).catch(err => {
         throw err;

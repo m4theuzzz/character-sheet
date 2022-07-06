@@ -4,7 +4,11 @@ let base = document.getElementById("responses");
 let breakLine = document.createElement('br');
 
 let loadCharacterSheet = (id) => {
-    fetch(`${apiUrl}/characterSheet/${id}`)
+    fetch(`${apiUrl}/characterSheet/${id}`, {
+        headers: {
+            "user": app.userId
+        }
+    })
         .then(res => {
             if (res.status == 200) {
                 return res.json();
@@ -28,7 +32,8 @@ let addChar = () => {
     let name = document.getElementById('characterName').value;
     let obj = JSON.stringify({ "name": name });
     let myheaders = {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "user": app.userId
     }
     fetch(`${apiUrl}/characters`, {
         method: 'POST',
@@ -43,7 +48,11 @@ let addChar = () => {
 
 let updatePage = () => {
     base.innerText = "";
-    fetch(`${apiUrl}/characters`).then(res => {
+    fetch(`${apiUrl}/characters`, {
+        headers: {
+            "user": app.userId
+        }
+    }).then(res => {
         if (res.status == 200) {
             return res.json();
         }

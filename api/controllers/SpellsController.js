@@ -10,6 +10,9 @@ const DURATION_TIME_COUNT = ["round", "minute", "hour", "day"];
 const RANGE_TYPES = ["self", "touch", "ranged", "sight", "unlimited"];
 
 exports.getAllSpellList = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const db = new Database('db');
     db.fetchAllRowsFromTable(TABLE_NAME, spells => {
         return res.status(200).send({ "spells": spells });
@@ -17,12 +20,18 @@ exports.getAllSpellList = (req, res) => {
 };
 
 exports.createNewSpell = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const newSpell = req.body.spellInfo;
     const spell = new Spell(0, newSpell);
     return res.status(200).send({ "id": spell.id });
 };
 
 exports.getConstants = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const constants = {
         "castingTypes": CASTING_TYPES,
         "durationTypes": DURATION_TYPES,
@@ -33,6 +42,9 @@ exports.getConstants = (req, res) => {
 };
 
 exports.getSpellById = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const db = new Database('db');
     let spell;
     const id = parseInt(req.params.id);
@@ -46,6 +58,9 @@ exports.getSpellById = (req, res) => {
 };
 
 exports.updateSpell = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const db = new Database('db');
     let spell = req.body.spellInfo;
 
@@ -58,6 +73,9 @@ exports.updateSpell = (req, res) => {
 };
 
 exports.deleteSpell = (req, res) => {
+    const userId = req.headers.user;
+    process.env.USER_ID = userId;
+
     const db = new Database('db');
     let id = parseInt(req.params.id);
     let filter = { "id": id };

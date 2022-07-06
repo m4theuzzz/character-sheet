@@ -5,6 +5,7 @@ const DURATION = 300;
 const app = new Vue({
     el: '#app',
     data: {
+        userId: 0,
         name: "",
         pass: "",
         showLogin: true,
@@ -90,7 +91,8 @@ const app = new Vue({
         selectedCharacter: {
             handler: (updatedCharacter) => {
                 let myHeader = {
-                    "content-type": "application/json"
+                    "content-type": "application/json",
+                    "user": app.userId
                 };
 
                 let myBody = JSON.stringify({
@@ -127,7 +129,11 @@ const app = new Vue({
     },
     methods: {
         loadCharacterSheet: (id) => {
-            fetch(`${API_URL}/characterSheet/${id}`).then(res => {
+            fetch(`${API_URL}/characterSheet/${id}`, {
+                headers: {
+                    "user": app.userId
+                }
+            }).then(res => {
                 if (res.status == 200) {
                     return res.json();
                 }
@@ -150,6 +156,7 @@ const app = new Vue({
                     return res.json();
                 }
             }).then(json => {
+                app.userId = json.user.id;
                 updateCharacterList();
                 updateSpellsList();
                 updateAllSavedItems();
@@ -175,7 +182,10 @@ const app = new Vue({
         },
         deleteCharacter: (id) => {
             fetch(`${API_URL}/characters/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    "user": app.userId
+                }
             }).then(res => {
                 updateCharacterList();
             }).catch(err => {
@@ -193,7 +203,7 @@ const app = new Vue({
                 "quantity": 1
             };
 
-            const reqHeader = { "content-type": "application/json" };
+            const reqHeader = { "content-type": "application/json", "user": app.userId };
             const reqBody = JSON.stringify({ "itemInfo": itemObject });
 
             fetch(`${API_URL}/items`, {
@@ -204,11 +214,12 @@ const app = new Vue({
                 return res.status == 200 ? res.json() : {};
             }).then(json => {
                 app.selectedCharacter.equipmentArray.push({ ...json, ...itemObject });
-                updateAllSavedItems();
                 app.modal = 'Equipamentos';
             }).catch(err => {
                 throw err;
             });
+
+            updateAllSavedItems();
         },
         addItemToCharacter: (itemObject) => {
             const characterItems = app.selectedCharacter.equipmentArray;
@@ -247,7 +258,7 @@ const app = new Vue({
                 window.alert('Você já possui essa magia');
         },
         updateItem: (itemObject) => {
-            const reqHeader = { "content-type": "application/json" };
+            const reqHeader = { "content-type": "application/json", "user": app.userId };
             const reqBody = JSON.stringify({ "itemInfo": itemObject });
 
             fetch(`${API_URL}/items/`, {
@@ -267,14 +278,20 @@ const app = new Vue({
         },
         deleteSpellFromDatabase: (id) => {
             fetch(`${API_URL}/spells/${id}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "user": app.userId
+                }
             });
             removeCharacterSpell();
             updateSpellsList();
         },
         deleteItemFromDatabase: (itemId) => {
             fetch(`${API_URL}/items/${itemId}`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "user": app.userId
+                }
             });
             updateAllSavedItems();
         },
@@ -283,7 +300,10 @@ const app = new Vue({
         },
         getAllSpells: () => {
             fetch(`${API_URL}/spells`, {
-                method: "GET"
+                method: "GET",
+                headers: {
+                    "user": app.userId
+                }
             }).then(res => {
                 if (res.status == 200) {
                     return res.json();
@@ -324,7 +344,8 @@ const app = new Vue({
             fetch(`${API_URL}/spells`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "user": app.userId
                 },
                 body: body
             }).then(() => {

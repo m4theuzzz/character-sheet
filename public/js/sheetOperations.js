@@ -1,4 +1,3 @@
-
 const recalculateHabilityScoreModifier = (habilityScore, value) => {
     const modifierCalculation = Math.trunc(parseInt(value) / 2) - 5;
     const modifier = modifierCalculation >= 0 ? `+${modifierCalculation}` : `${modifierCalculation}`
@@ -44,7 +43,8 @@ const addNewCharacter = () => {
     const name = document.getElementById('newCharacterName').value.length ? document.getElementById('newCharacterName').value : "Novo Personagem";
     const obj = JSON.stringify({ "name": name });
     const myheaders = {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "user": app.userId
     }
 
     fetch(`${API_URL}/characters`, {
@@ -61,7 +61,11 @@ const addNewCharacter = () => {
 }
 
 const updateCharacterList = () => {
-    fetch(`${API_URL}/characters`).then(res => {
+    fetch(`${API_URL}/characters`, {
+        headers: {
+            "user": app.userId
+        }
+    }).then(res => {
         return res.status == 200 ? res.json() : {};
     }).then(json => {
         app.charactersList = json["characters"];
@@ -72,7 +76,10 @@ const updateCharacterList = () => {
 
 const updateSpellsList = () => {
     fetch(`${API_URL}/spells`, {
-        method: "GET"
+        method: "GET",
+        headers: {
+            "user": app.userId
+        }
     }).then(res => {
         if (res.status == 200) {
             return res.json();
@@ -98,11 +105,16 @@ const updateSelectedCharacter = (char) => {
 };
 
 const logOut = () => {
-    fetch(`${API_URL}/user/logout`).then(res => {
+    fetch(`${API_URL}/user/logout`, {
+        headers: {
+            "user": app.userId
+        }
+    }).then(res => {
         if (res.status == 200) {
             return res.text();
         }
     }).then(text => {
+        app.userId = 0;
         setTimeout(() => {
             app.showHomePage = false;
             app.showCharacterSheet = false;
@@ -324,7 +336,8 @@ const addNewSpell = () => {
 
     const obj = JSON.stringify({ spellInfo: newSpell });
     const myheaders = {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        "user": app.userId
     }
 
     fetch(`${API_URL}/spells`, {
