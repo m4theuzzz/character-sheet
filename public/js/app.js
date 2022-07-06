@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:37456";
+const API_URL = "";
 
 const DURATION = 300;
 

@@ -1,4 +1,4 @@
-const apiUrl = "http://127.0.0.1:37456";
+const apiUrl = "";
 
 let base = document.getElementById("responses");
 let breakLine = document.createElement('br');
