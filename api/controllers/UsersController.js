@@ -11,8 +11,6 @@ exports.getUser = (req, res) => {
     const userName = req.headers.name;
     const userPass = req.headers.pass;
 
-    console.log(userName, userPass)
-
     const user = new User(userName, userPass);
 
     if (!user.getId()) {
