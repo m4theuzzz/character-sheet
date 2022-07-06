@@ -16,12 +16,10 @@ exports.getUser = (req, res) => {
     if (!user.getId()) {
         const validUser = new User(userName, userPass);
         process.env.USER_ID = validUser.getId();
-        new Database('db');
         return res.status(200).send({ "user": { "name": validUser.getName(), "id": validUser.getId() } });
     }
 
     process.env.USER_ID = user.getId();
-    new Database('db');
     return res.status(200).send({ "user": { "name": user.getName(), "id": user.getId() } });
 }
 

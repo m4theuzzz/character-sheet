@@ -30,7 +30,12 @@ class Database {
     }
 
     tableExists(databaseName) {
-        return db.valid(databaseName, this.pathToDatabases);
+        try {
+            return db.valid(databaseName, this.pathToDatabases);
+        } catch (error) {
+            return false;
+        }
+
     }
 
     getNextRowId(tableName) {
@@ -60,7 +65,9 @@ class Database {
 
     createRequiredTables() {
         this.requiredTables.forEach(tableName => {
-            this.createTable(tableName);
+            if (!this.tableExists(tableName)) {
+                this.createTable(tableName);
+            }
         });
     }
 
