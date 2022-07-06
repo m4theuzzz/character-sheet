@@ -173,3 +173,32 @@ ul {
 .page-leave-to {
     opacity: 0;
 }
+
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login input,
+#login button {
+    width: 100%;
+    margin: 2px;
+}
+
+#logout {
+    position: absolute;
+    top: 6px;
+    left: 4.2px;
+    display: flex;
+    padding: 0;
+    border: 0px;
+    width: calc((0.7 * var(--height)) * 0.04);
+    height: calc((var(--height) - 30px) * 0.07 * 0.3);
+}
+
+#logout svg {
+    width: var(--svg-size-2);
+    height: var(--svg-size-2);
+    color: red;
+}

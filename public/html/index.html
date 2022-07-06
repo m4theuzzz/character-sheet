@@ -19,7 +19,25 @@
 <body>
     <div id="app" v-cloak>
         <transition-group :duration="300" name="page" mode="out-in" appear>
-            <div id="homePage" v-if="showHomePage" :key="0" class="appPage">
+            <div id="login" v-if="showLogin" :key="0" class="appPage">
+                <div id="homeScreenCharacterList" class="addNewCharacterHolder">
+                    <input id="username" type="text" v-model="name" placeholder="Username">
+                    <input type="password" id="password" v-model="pass" placeholder="Password">
+                    <button type="button" class="addCharacter input-group-text" @click="logIn(name, pass)">
+                        Login
+                    </button>
+                </div>
+            </div>
+
+            <div id="homePage" v-if="showHomePage" :key="1" class="appPage">
+                <button id="logout" class="block" onclick="logOut()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-chevron-bar-right" viewBox="-4 -1 22 22">
+                        <path fill-rule="evenodd"
+                            d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0zM11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5z" />
+                    </svg>
+                </button>
+
                 <h1>Character Sheet</h1>
                 <div class="block addNewCharacterHolder" class="input-group">
                     <input type="text" placeholder="Novo Personagem" id="newCharacterName"
@@ -54,7 +72,7 @@
                 </div>
             </div>
 
-            <div id="characterSheet" v-if="showCharacterSheet" :key="1" class="appPage">
+            <div id="characterSheet" v-if="showCharacterSheet" :key="2" class="appPage">
                 <div id="header" class="block">
                     <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -522,7 +540,7 @@
                 </div>
             </div>
 
-            <div id="spellSheet" v-if="showSpellSheet" :key="2" class="appPage">
+            <div id="spellSheet" v-if="showSpellSheet" :key="3" class="appPage">
                 <div id="header" class="block">
                     <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -583,7 +601,7 @@
                 </button>
             </div>
 
-            <div id="detailsSheet" v-if="showDetailsSheet" :key="3" class="appPage">
+            <div id="detailsSheet" v-if="showDetailsSheet" :key="4" class="appPage">
                 <div id="header" class="block">
                     <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -622,7 +640,7 @@
                 </div>
             </div>
 
-            <div id="diary" v-if="showDiary" :key="4" class="appPage">
+            <div id="diary" v-if="showDiary" :key="5" class="appPage">
                 <div id="header" class="block">
                     <button id="backToHomePage" class="block" data-bs-toggle="offcanvas" data-bs-target="#offcanvas">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"

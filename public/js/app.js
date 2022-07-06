@@ -5,7 +5,10 @@ const DURATION = 300;
 const app = new Vue({
     el: '#app',
     data: {
-        showHomePage: true,
+        name: "",
+        pass: "",
+        showLogin: true,
+        showHomePage: false,
         showCharacterSheet: false,
         showHabilityScores: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false },
         showSpellSheet: false,
@@ -133,6 +136,25 @@ const app = new Vue({
                 goToCharacterSheet();
             }).catch(err => {
                 throw err;
+            });
+        },
+        logIn: (username, password) => {
+            const headers = {
+                name: username,
+                pass: password
+            }
+            fetch(`${API_URL}/user`, {
+                headers: headers
+            }).then(res => {
+                if (res.status == 200) {
+                    return res.json();
+                }
+            }).then(json => {
+                updateCharacterList();
+                updateSpellsList();
+                updateAllSavedItems();
+                app.showLogin = false;
+                app.showHomePage = true;
             });
         },
         handleModalExhibition: (type, build = true, item = null, arrayIndex = -1) => {

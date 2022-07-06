@@ -97,7 +97,28 @@ const updateSelectedCharacter = (char) => {
     app.selectedCharacter = char;
 };
 
+const logOut = () => {
+    fetch(`${API_URL}/user/logout`).then(res => {
+        if (res.status == 200) {
+            return res.text();
+        }
+    }).then(text => {
+        setTimeout(() => {
+            app.showHomePage = false;
+            app.showCharacterSheet = false;
+            app.showDetailsSheet = false;
+            app.showDiary = false;
+            app.showSpellSheet = false
+            setTimeout(() => app.showLogin = true, DURATION);
+        }, DURATION);
+        for (let i = 0; i < 9; i++) {
+            setTimeout(() => app.showHabilityScores[i] = false, i * 100);
+        }
+    });
+}
+
 const goToCharacterSheet = () => {
+    app.showLogin = false;
     app.showHomePage = false;
     app.showSpellSheet = false;
     app.showDetailsSheet = false;
@@ -111,7 +132,8 @@ const goToCharacterSheet = () => {
 
 const goToSpellSheet = () => {
     setTimeout(() => {
-        app.shoHomePage = false;
+        app.showLogin = false;
+        app.showHomePage = false;
         app.showCharacterSheet = false;
         app.showDetailsSheet = false;
         app.showDiary = false;
@@ -124,7 +146,8 @@ const goToSpellSheet = () => {
 
 const goToDetailsSheet = () => {
     setTimeout(() => {
-        app.shoHomePage = false;
+        app.showLogin = false;
+        app.showHomePage = false;
         app.showCharacterSheet = false;
         app.showSpellSheet = false;
         app.showDiary = false;
@@ -137,7 +160,8 @@ const goToDetailsSheet = () => {
 
 const goToDiary = () => {
     setTimeout(() => {
-        app.shoHomePage = false;
+        app.showLogin = false;
+        app.showHomePage = false;
         app.showCharacterSheet = false;
         app.showDetailsSheet = false;
         app.showSpellSheet = false;
