@@ -452,8 +452,6 @@
                                     <p v-if="action.hit">Acerto: {{ action.hit }}</p>
                                     <p v-if="action.difficultyClass">CD: {{ action.difficultyClass }}</p>
                                     <p v-if="action.damage != ''">{{ action.damage }}{{ action.damageType }}</p>
-                                    <p v-if="!action.damage && !action.difficultyClass && !action.hit">{{
-                                        action.description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -469,8 +467,6 @@
                                     <p v-if="action.hit">Acerto: {{ action.hit }}</p>
                                     <p v-if="action.difficultyClass">CD: {{ action.difficultyClass }}</p>
                                     <p v-if="action.damage != ''">{{ action.damage }}{{ action.damageType }}</p>
-                                    <p v-if="!action.damage && !action.difficultyClass && !action.hit">{{
-                                        action.description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -486,8 +482,6 @@
                                     <p v-if="action.hit">Acerto: {{ action.hit }}</p>
                                     <p v-if="action.difficultyClass">CD: {{ action.difficultyClass }}</p>
                                     <p v-if="action.damage != ''">{{ action.damage }}{{ action.damageType }}</p>
-                                    <p v-if="!action.damage && !action.difficultyClass && !action.hit">{{
-                                        action.description }}</p>
                                 </div>
                             </div>
                         </div>
@@ -500,9 +494,6 @@
                         <div class="featureList" v-if="selectedCharacter.featuresArray.length > 0">
                             <div class="listedFeature block" v-for="feat in selectedCharacter.featuresArray">
                                 <b>{{ feat.title }}</b>
-                                <div>
-                                    <p>{{ feat.description }}</p>
-                                </div>
                             </div>
                         </div>
                         <p v-else>Habilidades</p>

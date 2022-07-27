@@ -48,3 +48,9 @@ HOST: https://127.0.0.1:37456
 > DELETE: `/spells/:id` => delete the spell with that spellId
 
 > GET: `/spells/constants` => get spells constants to creation of spells
+
+# Melhorias
+
+ - Retirar Descrição de ações e habilidades na forma resumida;
+ - Adicionar contagem de espaços de magia na ficha de magias;
+ - Consertar tamanho da fonte em resoluções muito altas;
