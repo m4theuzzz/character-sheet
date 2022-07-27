@@ -98,6 +98,8 @@ const updateSpellsList = () => {
     }).catch(err => {
         throw err;
     });
+
+    app.modal = 'Adicionar Magia';
 }
 
 const updateSelectedCharacter = (char) => {
@@ -352,7 +354,6 @@ const addNewSpell = () => {
         addSpell({ ...json, ...newSpell });
         clearSpellForm();
         updateSpellsList();
-        app.modal = 'Adicionar Magia';
     }).catch(err => {
         throw err;
     });
