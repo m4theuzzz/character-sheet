@@ -98,8 +98,6 @@ const updateSpellsList = () => {
     }).catch(err => {
         throw err;
     });
-
-    app.modal = 'Adicionar Magia';
 }
 
 const updateSelectedCharacter = (char) => {
@@ -300,7 +298,7 @@ const clearSpellForm = () => {
     document.getElementById("newSpellCastTimeCount").value = "";
     document.getElementById("newSpellCastTimeType").value = "";
     document.getElementById("newSpellIsRitual").checked = false;
-    document.getElementById("newSpellRange").value = "";
+    app.newSpell.range == 'ranged' ? document.getElementById("newSpellRange").value = "" : true;
     document.getElementById("newSpellDuration").value = "";
     document.getElementById("newSpellVerbalComponent").checked = false;
     document.getElementById("newSpellSomaticComponent").checked = false;
@@ -309,7 +307,7 @@ const clearSpellForm = () => {
     document.getElementById("newSpellOrigin").value = "";
 };
 
-const addNewSpell = () => {
+const addNewSpell = async () => {
     const newSpell = {
         name: document.getElementById("newSpellName").value,
         school: document.getElementById("newSpellSchool").value,
@@ -342,21 +340,20 @@ const addNewSpell = () => {
         "user": app.userId
     }
 
-    fetch(`${API_URL}/spells`, {
+    const res = await fetch(`${API_URL}/spells`, {
         method: 'POST',
         headers: myheaders,
         body: obj
-    }).then(res => {
-        if (res.status == 200) {
-            return res.json();
-        }
-    }).then(json => {
-        addSpell({ ...json, ...newSpell });
-        clearSpellForm();
-        updateSpellsList();
     }).catch(err => {
         throw err;
     });
+
+    const json = await res.json();
+
+    addSpell({ ...json, ...newSpell });
+    clearSpellForm();
+    updateSpellsList();
+    app.modal = 'Adicionar Magia';
 };
 
 const addNewAction = (type, backTo) => {

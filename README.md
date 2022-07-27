@@ -51,6 +51,6 @@ HOST: https://127.0.0.1:37456
 
 # Melhorias
 
- - Retirar Descrição de ações e habilidades na forma resumida;
+ - Mudar banco para o s3
  - Adicionar contagem de espaços de magia na ficha de magias;
  - Consertar tamanho da fonte em resoluções muito altas;
